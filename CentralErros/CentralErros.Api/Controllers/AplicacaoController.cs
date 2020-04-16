@@ -11,48 +11,48 @@ namespace CentralErros.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class AplicacaoController : ControllerBase
     {
-        private readonly UsuarioRepositorio _repo;
+        private readonly AplicacaoRepositorio _repo;
 
-        public UsuarioController()
+        public AplicacaoController()
         {
-            _repo = new UsuarioRepositorio();
+            _repo = new AplicacaoRepositorio();
         }
 
-        // GET: api/Usuario
+        // GET: api/Aplicacao
         [HttpGet]
-        public IEnumerable<Usuario> Get()
+        public IEnumerable<Aplicacao> Get()
         {
             return _repo.SelecionarTodos();
         }
 
-        // GET: api/Usuario/5
+        // GET: api/Aplicacao/5
         [HttpGet("{id}")]
-        public Usuario Get(int id)
+        public Aplicacao Get(int id)
         {
             return _repo.SelecionarPorId(id);
         }
 
-        // POST: api/Usuario
+        // POST: api/Aplicacao
         [HttpPost]
-        public Usuario Post([FromBody] Usuario usuario)
+        public Aplicacao Post([FromBody] Aplicacao aplicacao)
         {
-            _repo.Incluir(usuario);
-            return usuario;
+            _repo.Incluir(aplicacao);
+            return aplicacao;
         }
 
-        // PUT: api/Usuario/5
+        // PUT: api/Aplicacao/5
         [HttpPut]
-        public Usuario Put([FromBody] Usuario usuario)
+        public Aplicacao Put([FromBody] Aplicacao aplicacao)
         {
-            _repo.Alterar(usuario);
-            return usuario;
+            _repo.Alterar(aplicacao);
+            return aplicacao;
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public List<Usuario> Delete(int id)
+        public List<Aplicacao> Delete(int id)
         {
             _repo.Excluir(id);
             return _repo.SelecionarTodos();

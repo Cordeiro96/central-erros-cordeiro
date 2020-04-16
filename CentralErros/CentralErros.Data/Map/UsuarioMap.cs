@@ -26,6 +26,10 @@ namespace CentralErros.Data.Map
             builder.Property(x => x.Senha)
                 .HasColumnType("varchar(100)")
                 .IsRequired();
+
+            builder.Property(x => x.Nivel)
+                .HasColumnType("smallint")
+                .IsRequired();
         }
     }
 }

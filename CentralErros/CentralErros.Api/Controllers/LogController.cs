@@ -11,48 +11,48 @@ namespace CentralErros.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class LogController : ControllerBase
     {
-        private readonly UsuarioRepositorio _repo;
+        private readonly LogRepositorio _repo;
 
-        public UsuarioController()
+        public LogController()
         {
-            _repo = new UsuarioRepositorio();
+            _repo = new LogRepositorio();
         }
 
-        // GET: api/Usuario
+        // GET: api/Log
         [HttpGet]
-        public IEnumerable<Usuario> Get()
+        public IEnumerable<Log> Get()
         {
             return _repo.SelecionarTodos();
         }
 
-        // GET: api/Usuario/5
+        // GET: api/Log/5
         [HttpGet("{id}")]
-        public Usuario Get(int id)
+        public Log Get(int id)
         {
             return _repo.SelecionarPorId(id);
         }
 
-        // POST: api/Usuario
+        // POST: api/Log
         [HttpPost]
-        public Usuario Post([FromBody] Usuario usuario)
+        public Log Post([FromBody] Log log)
         {
-            _repo.Incluir(usuario);
-            return usuario;
+            _repo.Incluir(log);
+            return log;
         }
 
-        // PUT: api/Usuario/5
+        // PUT: api/Log/5
         [HttpPut]
-        public Usuario Put([FromBody] Usuario usuario)
+        public Log Put([FromBody] Log log)
         {
-            _repo.Alterar(usuario);
-            return usuario;
+            _repo.Alterar(log);
+            return log;
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public List<Usuario> Delete(int id)
+        public List<Log> Delete(int id)
         {
             _repo.Excluir(id);
             return _repo.SelecionarTodos();

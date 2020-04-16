@@ -11,48 +11,47 @@ namespace CentralErros.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class TipoLogController : ControllerBase
     {
-        private readonly UsuarioRepositorio _repo;
-
-        public UsuarioController()
+        private readonly TipoLogRepositorio _repo;
+        public TipoLogController()
         {
-            _repo = new UsuarioRepositorio();
+            _repo = new TipoLogRepositorio();
         }
 
-        // GET: api/Usuario
+        // GET: api/TipoLog
         [HttpGet]
-        public IEnumerable<Usuario> Get()
+        public IEnumerable<TipoLog> Get()
         {
             return _repo.SelecionarTodos();
         }
 
-        // GET: api/Usuario/5
+        // GET: api/TipoLog/5
         [HttpGet("{id}")]
-        public Usuario Get(int id)
+        public TipoLog Get(int id)
         {
             return _repo.SelecionarPorId(id);
         }
 
-        // POST: api/Usuario
+        // POST: api/TipoLog
         [HttpPost]
-        public Usuario Post([FromBody] Usuario usuario)
+        public TipoLog Post([FromBody] TipoLog tipoLog)
         {
-            _repo.Incluir(usuario);
-            return usuario;
+            _repo.Incluir(tipoLog);
+            return tipoLog;
         }
 
-        // PUT: api/Usuario/5
-        [HttpPut]
-        public Usuario Put([FromBody] Usuario usuario)
+        // PUT: api/TipoLog/5
+        [HttpPut("{id}")]
+        public TipoLog Put( [FromBody] TipoLog tipoLog)
         {
-            _repo.Alterar(usuario);
-            return usuario;
+            _repo.Alterar(tipoLog);
+            return tipoLog;
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public List<Usuario> Delete(int id)
+        public List<TipoLog> Delete(int id)
         {
             _repo.Excluir(id);
             return _repo.SelecionarTodos();
