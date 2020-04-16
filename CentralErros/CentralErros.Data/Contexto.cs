@@ -14,8 +14,8 @@ namespace CentralErros.Data
         public DbSet<Log> Log { get; set; }
         public DbSet<TipoLog> TipoLog { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
-        public DbSet<UsuariosAplicacoes> UsuariosAplicacoes { get; set; }
-        public DbSet<UsuariosAvisos> UsuariosAvisos { get; set; }
+        public DbSet<UsuarioAplicacao> UsuariosAplicacoes { get; set; }
+        public DbSet<UsuarioAviso> UsuariosAvisos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,8 +31,8 @@ namespace CentralErros.Data
             modelBuilder.ApplyConfiguration(new LogMap());
             modelBuilder.ApplyConfiguration(new TipoLogMap());
             modelBuilder.ApplyConfiguration(new UsuarioMap());
-            modelBuilder.ApplyConfiguration(new UsuariosAplicacoesMap());
-            modelBuilder.ApplyConfiguration(new UsuariosAvisosMap());
+            modelBuilder.ApplyConfiguration(new UsuarioAplicacaoMap());
+            modelBuilder.ApplyConfiguration(new UsuarioAvisoMap());
 
             base.OnModelCreating(modelBuilder);
         }

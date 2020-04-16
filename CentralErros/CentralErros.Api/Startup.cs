@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CentralErros.Data.Repositorio;
+using CentralErros.Domain.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +32,14 @@ namespace CentralErros.Api
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+            services.AddScoped(typeof(IRepositorioBase<>), typeof(RepositorioBase<>));
+            services.AddScoped<IAplicacaoRepositorio, AplicacaoRepositorio>();
+            services.AddScoped<IAvisoRepositorio, AvisoRepositorio>();
+            services.AddScoped<ILogRepositorio, LogRepositorio>();
+            services.AddScoped<ITipoLogRepositorio, TipoLogRepositorio>();
+            services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+            services.AddScoped<IUsuarioAplicacaoRepositorio, UsuarioAplicacaoRepositorio>();
+            services.AddScoped<IUsuarioAvisoRepositorio, UsuarioAvisoRepositorio>();
 
             services.AddSwaggerGen(x => x.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "Central de Erros", Version = "v1" }));
         }

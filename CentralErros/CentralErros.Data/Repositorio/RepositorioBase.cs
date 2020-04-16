@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CentralErros.Data.Repositorio
 {
-    public class RepositorioBase<T> where T : class, IEntity
+    public class RepositorioBase<T> : IRepositorioBase<T> where T : class, IEntity
     {
         protected readonly Contexto _contexto;
         public RepositorioBase()
@@ -39,6 +39,11 @@ namespace CentralErros.Data.Repositorio
             var entity = SelecionarPorId(id);
             _contexto.Set<T>().Remove(entity);
             _contexto.SaveChanges();
+        }
+
+        public void Dispose()
+        {
+            _contexto.Dispose();
         }
     }
 }

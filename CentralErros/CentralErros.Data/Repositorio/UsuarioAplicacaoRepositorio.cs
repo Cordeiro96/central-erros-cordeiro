@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CentralErros.Data.Repositorio
 {
-    public class UsuarioRepositorio : RepositorioBase<Usuario>, IUsuarioRepositorio
+    public class UsuarioAplicacaoRepositorio : RepositorioBase<UsuarioAplicacao>, IUsuarioAplicacaoRepositorio
     {
     }
 }

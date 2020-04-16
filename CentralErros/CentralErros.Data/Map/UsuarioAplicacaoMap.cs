@@ -7,9 +7,9 @@ using System.Text;
 
 namespace CentralErros.Data.Map
 {
-    public class UsuariosAplicacoesMap : IEntityTypeConfiguration<UsuariosAplicacoes>
+    public class UsuarioAplicacaoMap : IEntityTypeConfiguration<UsuarioAplicacao>
     {
-        public void Configure(EntityTypeBuilder<UsuariosAplicacoes> builder)
+        public void Configure(EntityTypeBuilder<UsuarioAplicacao> builder)
         {
             builder.ToTable("UsuarioAplicacao");
 

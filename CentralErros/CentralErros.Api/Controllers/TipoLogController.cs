@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CentralErros.Data.Repositorio;
 using CentralErros.Domain.Modelo;
+using CentralErros.Domain.Repositorio;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +14,10 @@ namespace CentralErros.Api.Controllers
     [ApiController]
     public class TipoLogController : ControllerBase
     {
-        private readonly TipoLogRepositorio _repo;
-        public TipoLogController()
+        private readonly ITipoLogRepositorio _repo;
+        public TipoLogController(ITipoLogRepositorio repo)
         {
-            _repo = new TipoLogRepositorio();
+            _repo = repo;
         }
 
         // GET: api/TipoLog

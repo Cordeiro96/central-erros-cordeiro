@@ -10,7 +10,7 @@ namespace CentralErros.Domain.Modelo
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
-        public List<UsuariosAplicacoes> UsuariosAplicacoes { get; set; }
+        public List<UsuarioAplicacao> UsuariosAplicacoes { get; set; }
         public List<Log> Logs { get; set; }
     }
 }

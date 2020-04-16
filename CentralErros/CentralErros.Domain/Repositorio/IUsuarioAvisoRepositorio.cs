@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CentralErros.Data.Repositorio
+namespace CentralErros.Domain.Repositorio
 {
-    public class UsuariosAvisosRepositorio : RepositorioBase<UsuariosAvisos>
+    public interface IUsuarioAvisoRepositorio : IRepositorioBase<UsuarioAviso>
     {
     }
 }

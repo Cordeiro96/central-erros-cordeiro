@@ -11,6 +11,6 @@ namespace CentralErros.Domain.Modelo
         public string Descricao { get; set; }
         public int Visualizado { get; set; }
         public DateTime Data { get; set; }
-        public List<UsuariosAvisos> UsuariosAvisos { get; set; }
+        public List<UsuarioAviso> UsuariosAvisos { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace CentralErros.Domain.Modelo
         public string Email { get; set; }
         public string Senha { get; set; }
         public int Nivel { get; set; }
-        public List<UsuariosAvisos> UsuariosAvisos { get; set; }
-        public List<UsuariosAplicacoes> UsuariosAplicacoes { get; set; }
+        public List<UsuarioAviso> UsuariosAvisos { get; set; }
+        public List<UsuarioAplicacao> UsuariosAplicacoes { get; set; }
     }
 }

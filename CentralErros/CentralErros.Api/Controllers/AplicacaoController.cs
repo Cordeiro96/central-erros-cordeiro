@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CentralErros.Data.Repositorio;
 using CentralErros.Domain.Modelo;
+using CentralErros.Domain.Repositorio;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +14,11 @@ namespace CentralErros.Api.Controllers
     [ApiController]
     public class AplicacaoController : ControllerBase
     {
-        private readonly AplicacaoRepositorio _repo;
+        private readonly IAplicacaoRepositorio _repo;
 
-        public AplicacaoController()
+        public AplicacaoController(IAplicacaoRepositorio repo)
         {
-            _repo = new AplicacaoRepositorio();
+            _repo = repo;
         }
 
         // GET: api/Aplicacao
