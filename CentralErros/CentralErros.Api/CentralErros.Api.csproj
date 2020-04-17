@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CentralErros.Application\CentralErros.Application.csproj" />
     <ProjectReference Include="..\CentralErros.Data\CentralErros.Data.csproj" />
   </ItemGroup>
 

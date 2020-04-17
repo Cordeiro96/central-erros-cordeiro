@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CentralErros.Data.Repositorio;
-using CentralErros.Domain.Modelo;
-using CentralErros.Domain.Repositorio;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using CentralErros.Application.Interface;
+using CentralErros.Application.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CentralErros.Api.Controllers
@@ -14,29 +9,29 @@ namespace CentralErros.Api.Controllers
     [ApiController]
     public class UsuarioAplicacaoController : ControllerBase
     {
-        private readonly IUsuarioAplicacaoRepositorio _repo;
-        public UsuarioAplicacaoController(IUsuarioAplicacaoRepositorio repo)
+        private readonly IUsuarioAplicacaoAplicacao _repo;
+        public UsuarioAplicacaoController(IUsuarioAplicacaoAplicacao repo)
         {
             _repo = repo;
         }
 
         // GET: api/UsuariosAplicacoes
         [HttpGet]
-        public IEnumerable<UsuarioAplicacao> Get()
+        public IEnumerable<UsuarioAplicacaoViewModel> Get()
         {
             return _repo.SelecionarTodos();
         }
 
         // GET: api/UsuariosAplicacoes/5
         [HttpGet("{id}")]
-        public UsuarioAplicacao Get(int id)
+        public UsuarioAplicacaoViewModel Get(int id)
         {
             return _repo.SelecionarPorId(id);
         }
 
         // POST: api/UsuariosAplicacoes
         [HttpPost]
-        public UsuarioAplicacao Post([FromBody] UsuarioAplicacao usuariosAplicacoes)
+        public UsuarioAplicacaoViewModel Post([FromBody] UsuarioAplicacaoViewModel usuariosAplicacoes)
         {
             _repo.Incluir(usuariosAplicacoes);
             return usuariosAplicacoes;
@@ -44,7 +39,7 @@ namespace CentralErros.Api.Controllers
 
         // PUT: api/UsuariosAplicacoes/5
         [HttpPut]
-        public UsuarioAplicacao Put([FromBody] UsuarioAplicacao usuariosAplicacoes)
+        public UsuarioAplicacaoViewModel Put([FromBody] UsuarioAplicacaoViewModel usuariosAplicacoes)
         {
             _repo.Alterar(usuariosAplicacoes);
             return usuariosAplicacoes;
@@ -52,7 +47,7 @@ namespace CentralErros.Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public List<UsuarioAplicacao> Delete(int id)
+        public List<UsuarioAplicacaoViewModel> Delete(int id)
         {
             _repo.Excluir(id);
             return _repo.SelecionarTodos();

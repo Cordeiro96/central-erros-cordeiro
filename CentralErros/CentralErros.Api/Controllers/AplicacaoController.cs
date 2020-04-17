@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CentralErros.Data.Repositorio;
-using CentralErros.Domain.Modelo;
-using CentralErros.Domain.Repositorio;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using CentralErros.Application.Interface;
+using CentralErros.Application.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CentralErros.Api.Controllers
@@ -14,30 +9,30 @@ namespace CentralErros.Api.Controllers
     [ApiController]
     public class AplicacaoController : ControllerBase
     {
-        private readonly IAplicacaoRepositorio _repo;
+        private readonly IAplicacaoAplicacao _repo;
 
-        public AplicacaoController(IAplicacaoRepositorio repo)
+        public AplicacaoController(IAplicacaoAplicacao repo)
         {
             _repo = repo;
         }
 
         // GET: api/Aplicacao
         [HttpGet]
-        public IEnumerable<Aplicacao> Get()
+        public IEnumerable<AplicacaoViewModel> Get()
         {
             return _repo.SelecionarTodos();
         }
 
         // GET: api/Aplicacao/5
         [HttpGet("{id}")]
-        public Aplicacao Get(int id)
+        public AplicacaoViewModel Get(int id)
         {
             return _repo.SelecionarPorId(id);
         }
 
         // POST: api/Aplicacao
         [HttpPost]
-        public Aplicacao Post([FromBody] Aplicacao aplicacao)
+        public AplicacaoViewModel Post([FromBody] AplicacaoViewModel aplicacao)
         {
             _repo.Incluir(aplicacao);
             return aplicacao;
@@ -45,7 +40,7 @@ namespace CentralErros.Api.Controllers
 
         // PUT: api/Aplicacao/5
         [HttpPut]
-        public Aplicacao Put([FromBody] Aplicacao aplicacao)
+        public AplicacaoViewModel Put([FromBody] AplicacaoViewModel aplicacao)
         {
             _repo.Alterar(aplicacao);
             return aplicacao;
@@ -53,7 +48,7 @@ namespace CentralErros.Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public List<Aplicacao> Delete(int id)
+        public List<AplicacaoViewModel> Delete(int id)
         {
             _repo.Excluir(id);
             return _repo.SelecionarTodos();

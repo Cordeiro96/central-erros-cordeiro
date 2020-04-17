@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CentralErros.Data.Repositorio;
-using CentralErros.Domain.Modelo;
-using CentralErros.Domain.Repositorio;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using CentralErros.Application.Interface;
+using CentralErros.Application.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CentralErros.Api.Controllers
@@ -14,30 +9,30 @@ namespace CentralErros.Api.Controllers
     [ApiController]
     public class LogController : ControllerBase
     {
-        private readonly ILogRepositorio _repo;
+        private readonly ILogAplicacao _repo;
 
-        public LogController(ILogRepositorio repo)
+        public LogController(ILogAplicacao repo)
         {
             _repo = repo;
         }
 
         // GET: api/Log
         [HttpGet]
-        public IEnumerable<Log> Get()
+        public IEnumerable<LogViewModel> Get()
         {
             return _repo.SelecionarTodos();
         }
 
         // GET: api/Log/5
         [HttpGet("{id}")]
-        public Log Get(int id)
+        public LogViewModel Get(int id)
         {
             return _repo.SelecionarPorId(id);
         }
 
         // POST: api/Log
         [HttpPost]
-        public Log Post([FromBody] Log log)
+        public LogViewModel Post([FromBody] LogViewModel log)
         {
             _repo.Incluir(log);
             return log;
@@ -45,7 +40,7 @@ namespace CentralErros.Api.Controllers
 
         // PUT: api/Log/5
         [HttpPut]
-        public Log Put([FromBody] Log log)
+        public LogViewModel Put([FromBody] LogViewModel log)
         {
             _repo.Alterar(log);
             return log;
@@ -53,7 +48,7 @@ namespace CentralErros.Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public List<Log> Delete(int id)
+        public List<LogViewModel> Delete(int id)
         {
             _repo.Excluir(id);
             return _repo.SelecionarTodos();

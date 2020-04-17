@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CentralErros.Data.Repositorio;
-using CentralErros.Domain.Modelo;
-using CentralErros.Domain.Repositorio;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using CentralErros.Application.Interface;
+using CentralErros.Application.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CentralErros.Api.Controllers
@@ -14,30 +9,30 @@ namespace CentralErros.Api.Controllers
     [ApiController]
     public class AvisoController : ControllerBase
     {
-        private readonly IAvisoRepositorio _repo;
+        private readonly IAvisoAplicacao _repo;
         
-        public AvisoController(IAvisoRepositorio repo)
+        public AvisoController(IAvisoAplicacao repo)
         {
             _repo = repo;
         }
 
         // GET: api/Aviso
         [HttpGet]
-        public IEnumerable<Aviso> Get()
+        public IEnumerable<AvisoViewModel> Get()
         {
             return _repo.SelecionarTodos();
         }
 
         // GET: api/Aviso/5
         [HttpGet("{id}")]
-        public Aviso Get(int id)
+        public AvisoViewModel Get(int id)
         {
             return _repo.SelecionarPorId(id);
         }
 
         // POST: api/Aviso
         [HttpPost]
-        public Aviso Post([FromBody] Aviso aviso)
+        public AvisoViewModel Post([FromBody] AvisoViewModel aviso)
         {
             _repo.Incluir(aviso);
             return aviso;
@@ -45,7 +40,7 @@ namespace CentralErros.Api.Controllers
 
         // PUT: api/Aviso/5
         [HttpPut]
-        public Aviso Put([FromBody] Aviso aviso)
+        public AvisoViewModel Put([FromBody] AvisoViewModel aviso)
         {
             _repo.Alterar(aviso);
             return aviso;
@@ -53,7 +48,7 @@ namespace CentralErros.Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public List<Aviso> Delete(int id)
+        public List<AvisoViewModel> Delete(int id)
         {
             _repo.Excluir(id);
             return _repo.SelecionarTodos();

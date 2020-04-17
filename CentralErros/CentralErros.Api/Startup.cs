@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using CentralErros.Application.App;
+using CentralErros.Application.Interface;
+using CentralErros.Application.Mapper;
 using CentralErros.Data.Repositorio;
 using CentralErros.Domain.Repositorio;
 using Microsoft.AspNetCore.Builder;
@@ -40,6 +44,16 @@ namespace CentralErros.Api
             services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
             services.AddScoped<IUsuarioAplicacaoRepositorio, UsuarioAplicacaoRepositorio>();
             services.AddScoped<IUsuarioAvisoRepositorio, UsuarioAvisoRepositorio>();
+
+            services.AddScoped<IAplicacaoAplicacao, AplicacaoAplicacao>();
+            services.AddScoped<IAvisoAplicacao, AvisoAplicacao>();
+            services.AddScoped<ILogAplicacao, LogAplicacao>();
+            services.AddScoped<ITipoLogAplicacao, TipoLogAplicacao>();
+            services.AddScoped<IUsuarioAplicacao, UsuarioAplicacao>();
+            services.AddScoped<IUsuarioAplicacaoAplicacao, UsuarioAplicacaoAplicacao>();
+            services.AddScoped<IUsuarioAvisoAplicacao, UsuarioAvisoAplicacao>();
+
+            services.AddAutoMapper(typeof(AutoMapperConfig));
 
             services.AddSwaggerGen(x => x.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "Central de Erros", Version = "v1" }));
         }
