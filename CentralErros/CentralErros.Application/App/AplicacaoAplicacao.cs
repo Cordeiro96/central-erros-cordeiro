@@ -33,14 +33,24 @@ namespace CentralErros.Application.App
             _repo.Incluir(_mapper.Map<Aplicacao>(entity));
         }
 
-        public AplicacaoViewModel SelecionarPorId(int id)
+        public AplicacaoViewModel ObterAplicacaoId(int id)
         {
-            return _mapper.Map<AplicacaoViewModel>(_repo.SelecionarPorId(id));
+            return _mapper.Map<AplicacaoViewModel>(_repo.ObterAplicacaoId(id));
         }
 
-        public List<AplicacaoViewModel> SelecionarTodos()
+        public List<AplicacaoViewModel> ObterAplicacaoNome(string nome)
         {
-            return _mapper.Map<List<AplicacaoViewModel>>(_repo.SelecionarTodos());
+            return _mapper.Map<List<AplicacaoViewModel>>(_repo.ObterAplicacaoNome(nome));
+        }
+
+        public AplicacaoViewModel ObterAplicacaoTipoLog(int app_id, int tipolog_id)
+        {
+            return _mapper.Map<AplicacaoViewModel>(_repo.ObterAplicacaoTipoLog(app_id, tipolog_id));
+        }
+
+        public List<AplicacaoViewModel> ObterTodosAplicacoes()
+        {
+            return _mapper.Map<List<AplicacaoViewModel>>(_repo.ObterTodosAplicacoes());
         }
     }
 }

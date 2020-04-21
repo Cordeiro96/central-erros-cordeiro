@@ -9,10 +9,14 @@ namespace CentralErros.Application.Interface
 
         void Alterar(AplicacaoViewModel entity);
 
-        AplicacaoViewModel SelecionarPorId(int id);
-
-        List<AplicacaoViewModel> SelecionarTodos();
-
         void Excluir(int id);
+
+        List<AplicacaoViewModel> ObterTodosAplicacoes();
+
+        AplicacaoViewModel ObterAplicacaoId(int id);
+
+        List<AplicacaoViewModel> ObterAplicacaoNome(string nome);
+
+        AplicacaoViewModel ObterAplicacaoTipoLog(int app_id, int tipolog_id);
     }
 }

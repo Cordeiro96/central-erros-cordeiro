@@ -33,9 +33,19 @@ namespace CentralErros.Application.App
             _repo.Incluir(_mapper.Map<Usuario>(entity));
         }
 
-        public UsuarioViewModel SelecionarPorId(int id)
+        public List<UsuarioViewModel> ObterUsuarioNome(string nome)
         {
-            return _mapper.Map<UsuarioViewModel>(_repo.SelecionarPorId(id));
+            return _mapper.Map<List<UsuarioViewModel>>(_repo.ObterUsuarioNome(nome));
+        }
+
+        public List<UsuarioViewModel> ObterTodosUsuarios()
+        {
+            return _mapper.Map<List<UsuarioViewModel>>(_repo.ObterTodosUsuarios());
+        }
+
+        public UsuarioViewModel ObterUsuarioId(int id)
+        {
+            return _mapper.Map<UsuarioViewModel>(_repo.ObterUsuarioId(id));
         }
 
         public List<UsuarioViewModel> SelecionarTodos()

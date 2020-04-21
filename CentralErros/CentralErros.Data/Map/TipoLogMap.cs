@@ -19,6 +19,10 @@ namespace CentralErros.Data.Map
             builder.HasMany<Log>(p => p.Logs)
                 .WithOne(t => t.TipoLog)
                 .HasForeignKey(t => t.IdTipoLog);
+
+            builder.HasMany<Aviso>(p => p.Avisos)
+                .WithOne(a => a.TipoLog)
+                .HasForeignKey(a => a.IdTipoLog);
         }
     }
 }

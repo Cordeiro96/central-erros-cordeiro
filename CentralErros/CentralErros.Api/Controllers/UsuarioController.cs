@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -18,40 +19,55 @@ namespace CentralErros.Api.Controllers
 
         // GET: api/Usuario
         [HttpGet]
-        public IEnumerable<UsuarioViewModel> Get()
+        public ActionResult<IEnumerable<UsuarioViewModel>> Get()
         {
-            return _repo.SelecionarTodos();
+            return Ok(_repo.ObterTodosUsuarios());
         }
 
         // GET: api/Usuario/5
-        [HttpGet("{id}")]
-        public UsuarioViewModel Get(int id)
+        [HttpGet("id/{id}")]
+        public ActionResult<UsuarioViewModel> GetUserId(int? id)
         {
-            return _repo.SelecionarPorId(id);
+            if (id == null)
+                return NoContent();
+
+            return _repo.ObterUsuarioId(Convert.ToInt32(id));
+        }
+
+        [HttpGet("nome/{nome}")]
+        public ActionResult<IEnumerable<UsuarioViewModel>> GetUserNome(string nome)
+        {
+            if (nome == null)
+                return NoContent();
+            
+            return Ok(_repo.ObterUsuarioNome(nome));
         }
 
         // POST: api/Usuario
         [HttpPost]
-        public UsuarioViewModel Post([FromBody] UsuarioViewModel usuario)
+        public ActionResult<UsuarioViewModel> Post([FromBody] UsuarioViewModel usuario)
         {
+            usuario.Id = 0;
             _repo.Incluir(usuario);
-            return usuario;
+            return Ok(usuario);
         }
 
         // PUT: api/Usuario/5
         [HttpPut]
-        public UsuarioViewModel Put([FromBody] UsuarioViewModel usuario)
+        public ActionResult<UsuarioViewModel> Put([FromBody] UsuarioViewModel usuario)
         {
+            if (usuario.Id == 0)
+                return NoContent();
             _repo.Alterar(usuario);
-            return usuario;
+            return Ok(_repo.ObterUsuarioId(usuario.Id));
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public List<UsuarioViewModel> Delete(int id)
+        public ActionResult<List<UsuarioViewModel>> Delete(int id)
         {
             _repo.Excluir(id);
-            return _repo.SelecionarTodos();
+            return Ok(_repo.ObterTodosUsuarios());
         }
     }
 }

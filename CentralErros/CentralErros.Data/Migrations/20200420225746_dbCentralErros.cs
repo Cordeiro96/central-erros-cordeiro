@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CentralErros.Data.Migrations
 {
-    public partial class migrationcentraldeerros : Migration
+    public partial class dbCentralErros : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,21 +19,6 @@ namespace CentralErros.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Aplicacao", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Aviso",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descricao = table.Column<string>(type: "varchar(500)", nullable: false),
-                    Visualizado = table.Column<short>(type: "smallint", nullable: false),
-                    Data = table.Column<DateTime>(type: "smalldatetime", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Aviso", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,10 +51,32 @@ namespace CentralErros.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Aviso",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descricao = table.Column<string>(type: "varchar(500)", nullable: false),
+                    Data = table.Column<DateTime>(type: "smalldatetime", nullable: false),
+                    IdTipoLog = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Aviso", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Aviso_TipoLog_IdTipoLog",
+                        column: x => x.IdTipoLog,
+                        principalTable: "TipoLog",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Log",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IdAplicacao = table.Column<int>(nullable: false),
                     Descricao = table.Column<string>(type: "varchar(500)", nullable: false),
                     Data = table.Column<DateTime>(type: "smalldatetime", nullable: false),
@@ -145,6 +152,11 @@ namespace CentralErros.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Aviso_IdTipoLog",
+                table: "Aviso",
+                column: "IdTipoLog");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Log_IdAplicacao",
                 table: "Log",
                 column: "IdAplicacao");
@@ -177,9 +189,6 @@ namespace CentralErros.Data.Migrations
                 name: "UsuarioAviso");
 
             migrationBuilder.DropTable(
-                name: "TipoLog");
-
-            migrationBuilder.DropTable(
                 name: "Aplicacao");
 
             migrationBuilder.DropTable(
@@ -187,6 +196,9 @@ namespace CentralErros.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Usuario");
+
+            migrationBuilder.DropTable(
+                name: "TipoLog");
         }
     }
 }

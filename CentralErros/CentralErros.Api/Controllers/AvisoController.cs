@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -18,40 +19,44 @@ namespace CentralErros.Api.Controllers
 
         // GET: api/Aviso
         [HttpGet]
-        public IEnumerable<AvisoViewModel> Get()
+        public ActionResult<IEnumerable<AvisoViewModel>> Get()
         {
-            return _repo.SelecionarTodos();
+            return Ok(_repo.ObterTodosAvisos());
         }
 
         // GET: api/Aviso/5
         [HttpGet("{id}")]
-        public AvisoViewModel Get(int id)
+        public ActionResult<AvisoViewModel> Get(int? id)
         {
-            return _repo.SelecionarPorId(id);
+            if (id == null)
+                return NoContent();
+
+            return Ok(_repo.ObterAvisoId(Convert.ToInt32(id)));
         }
 
         // POST: api/Aviso
         [HttpPost]
-        public AvisoViewModel Post([FromBody] AvisoViewModel aviso)
+        public ActionResult<AvisoViewModel> Post([FromBody] AvisoViewModel aviso)
         {
+            aviso.Id = 0;
             _repo.Incluir(aviso);
-            return aviso;
+            return Ok(aviso);
         }
 
-        // PUT: api/Aviso/5
+        // PUT: api/Aviso
         [HttpPut]
-        public AvisoViewModel Put([FromBody] AvisoViewModel aviso)
+        public ActionResult<AvisoViewModel> Put([FromBody] AvisoViewModel aviso)
         {
             _repo.Alterar(aviso);
-            return aviso;
+            return Ok(_repo.ObterAvisoId(aviso.Id));
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public List<AvisoViewModel> Delete(int id)
+        public ActionResult<List<AvisoViewModel>> Delete(int id)
         {
             _repo.Excluir(id);
-            return _repo.SelecionarTodos();
+            return _repo.ObterTodosAvisos();
         }
     }
 }

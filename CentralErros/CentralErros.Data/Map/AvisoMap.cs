@@ -12,9 +12,6 @@ namespace CentralErros.Data.Map
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Visualizado)
-                .HasColumnType("smallint");
-
             builder.Property(x => x.Descricao)
                 .HasColumnType("varchar(500)")
                 .IsRequired();
@@ -22,6 +19,9 @@ namespace CentralErros.Data.Map
             builder.Property(x => x.Data)
                 .HasColumnType("smalldatetime")
                 .IsRequired();
+
+            builder.Property(x => x.Id)
+                .UseIdentityColumn();
         }
     }
 }

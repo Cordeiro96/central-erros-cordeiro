@@ -8,8 +8,9 @@ namespace CentralErros.Domain.Modelo
     {
         public int Id { get; set; }
         public string Descricao { get; set; }
-        public int Visualizado { get; set; }
         public DateTime Data { get; set; }
+        public int IdTipoLog { get; set; }
+        public TipoLog TipoLog { get; set; }
         public List<UsuarioAviso> UsuariosAvisos { get; set; }
     }
 }

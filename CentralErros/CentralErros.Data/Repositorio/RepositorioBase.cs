@@ -12,13 +12,13 @@ namespace CentralErros.Data.Repositorio
             _contexto = new Contexto();
         }
 
-        public void Incluir(T entity)
+        public virtual void Incluir(T entity)
         {
             _contexto.Set<T>().Add(entity);
             _contexto.SaveChanges();
         }
 
-        public void Alterar(T entity)
+        public virtual void Alterar(T entity)
         {
             _contexto.Set<T>().Update(entity);
             _contexto.SaveChanges();

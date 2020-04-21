@@ -1,35 +1,26 @@
 ### Funções central de erros ###
 
 --- Usuário ---
-- CRUD
-- Aplicações em que o usuário está vinculado
-- Logs da aplicação em que o usuário está vinculado
-- Solicitar permissão de acesso de logs a aplicação
--- Usuário no nível de administrador --
-- Aplicações em que o administrador está vinculado
-- Permissão para usuário acessar logs da aplicação
+- CRUD #FEITO
+- Obter usuário por ID e Nome #Feito
+
+--- UsuarioAplicacao ---
+- Remover aplicacao do usuario (Uso logado ou Adm fazer com token)
+
+--- UsuarioAviso ---
+- Remover avisos do usuario (Uso logado ou Adm fazer com token)
 
 --- Avisos ---
-- CRUD
-- Visualizar recados por administrador
-- Idem adm, filtrar recados por erro ou permissão?
-- Visualizar recados por usuário (Em caso de erro crítico)
+- CRUD #FEITO
 
 --- Aplicação ---
-- CRUD
-- Visualizar todos os logs da aplicação
-- Visualizaar todos os logs pelo tipo do level
-- Todos os usuários vinculados a aplicação
-- Todos os administradores vinculados a aplicação
+- CRUD #Feito
+- Visualizaar todos os logs pelo tipo do log #FEITO
 
 --- Log ---
-- CRUD (Quando gravar um erro crítico, enviar msg para usuários e adm?)
-- Aplicação que ocorre a maior inferência de logs
-- Aplicação que ocorre maior inferência de logs pelo level
-- Aplicações que já tiveram logs
-- Aplicações que não tiveram logs
+- CRUD (Quando gravar um erro, gravar aviso) #FEITO
+- Aplicação que ocorre a maior inferência de logs #FEITO
 
---- Level_log ---
-- CRUD
-- Level_log que ocorreu mais inferências de logs
-- level_log que ocorreu menos inferências de logs
+--- Tipo Log ---
+- CRUD #Feito
+- Level_log que ocorreu mais inferências de logs e/ou menos #FEITO

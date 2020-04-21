@@ -19,6 +19,9 @@ namespace CentralErros.Data.Map
             builder.Property(x => x.Data)
                 .HasColumnType("smalldatetime")
                 .IsRequired();
+
+            builder.Property(x => x.Id)
+                .UseIdentityColumn();
         }
     }
 }

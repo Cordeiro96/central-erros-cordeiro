@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CentralErros.Data.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200416044124_migration central de erros")]
-    partial class migrationcentraldeerros
+    [Migration("20200420225746_dbCentralErros")]
+    partial class dbCentralErros
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,8 @@ namespace CentralErros.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Data")
@@ -55,10 +57,12 @@ namespace CentralErros.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<short>("Visualizado")
-                        .HasColumnType("smallint");
+                    b.Property<int>("IdTipoLog")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdTipoLog");
 
                     b.ToTable("Aviso");
                 });
@@ -66,7 +70,11 @@ namespace CentralErros.Data.Migrations
             modelBuilder.Entity("CentralErros.Domain.Modelo.Log", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("IdAplicacao")
                         .HasColumnType("int");
@@ -133,7 +141,7 @@ namespace CentralErros.Data.Migrations
                     b.ToTable("Usuario");
                 });
 
-            modelBuilder.Entity("CentralErros.Domain.Modelo.UsuariosAplicacoes", b =>
+            modelBuilder.Entity("CentralErros.Domain.Modelo.UsuarioAplicacao", b =>
                 {
                     b.Property<int>("IdUsuario")
                         .HasColumnType("int");
@@ -155,7 +163,7 @@ namespace CentralErros.Data.Migrations
                     b.ToTable("UsuarioAplicacao");
                 });
 
-            modelBuilder.Entity("CentralErros.Domain.Modelo.UsuariosAvisos", b =>
+            modelBuilder.Entity("CentralErros.Domain.Modelo.UsuarioAviso", b =>
                 {
                     b.Property<int>("IdUsuario")
                         .HasColumnType("int");
@@ -177,6 +185,15 @@ namespace CentralErros.Data.Migrations
                     b.ToTable("UsuarioAviso");
                 });
 
+            modelBuilder.Entity("CentralErros.Domain.Modelo.Aviso", b =>
+                {
+                    b.HasOne("CentralErros.Domain.Modelo.TipoLog", "TipoLog")
+                        .WithMany("Avisos")
+                        .HasForeignKey("IdTipoLog")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CentralErros.Domain.Modelo.Log", b =>
                 {
                     b.HasOne("CentralErros.Domain.Modelo.Aplicacao", "Aplicacao")
@@ -192,7 +209,7 @@ namespace CentralErros.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CentralErros.Domain.Modelo.UsuariosAplicacoes", b =>
+            modelBuilder.Entity("CentralErros.Domain.Modelo.UsuarioAplicacao", b =>
                 {
                     b.HasOne("CentralErros.Domain.Modelo.Aplicacao", "Aplicacao")
                         .WithMany("UsuariosAplicacoes")
@@ -207,7 +224,7 @@ namespace CentralErros.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CentralErros.Domain.Modelo.UsuariosAvisos", b =>
+            modelBuilder.Entity("CentralErros.Domain.Modelo.UsuarioAviso", b =>
                 {
                     b.HasOne("CentralErros.Domain.Modelo.Aviso", "Aviso")
                         .WithMany("UsuariosAvisos")

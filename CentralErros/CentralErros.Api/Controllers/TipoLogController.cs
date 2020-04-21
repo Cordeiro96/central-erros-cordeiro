@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -19,20 +20,27 @@ namespace CentralErros.Api.Controllers
         [HttpGet]
         public IEnumerable<TipoLogViewModel> Get()
         {
-            return _repo.SelecionarTodos();
+            return _repo.ObterTodosTipoLogs();
         }
 
         // GET: api/TipoLog/5
         [HttpGet("{id}")]
         public TipoLogViewModel Get(int id)
         {
-            return _repo.SelecionarPorId(id);
+            return _repo.ObterTipoLogId(id);
+        }
+
+        [HttpGet("Ocorrencias")]
+        public Object GetOcorrenciasTipoLog()
+        {
+            return _repo.OcorrenciasTipoLog();
         }
 
         // POST: api/TipoLog
         [HttpPost]
         public TipoLogViewModel Post([FromBody] TipoLogViewModel tipoLog)
         {
+            tipoLog.Id = 0;
             _repo.Incluir(tipoLog);
             return tipoLog;
         }
@@ -50,7 +58,7 @@ namespace CentralErros.Api.Controllers
         public List<TipoLogViewModel> Delete(int id)
         {
             _repo.Excluir(id);
-            return _repo.SelecionarTodos();
+            return _repo.ObterTodosTipoLogs();
         }
     }
 }

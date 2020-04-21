@@ -3,6 +3,7 @@ using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
 using CentralErros.Domain.Modelo;
 using CentralErros.Domain.Repositorio;
+using System;
 using System.Collections.Generic;
 
 namespace CentralErros.Application.App
@@ -33,14 +34,19 @@ namespace CentralErros.Application.App
             _repo.Incluir(_mapper.Map<TipoLog>(entity));
         }
 
-        public TipoLogViewModel SelecionarPorId(int id)
+        public TipoLogViewModel ObterTipoLogId(int id)
         {
-            return _mapper.Map<TipoLogViewModel>(_repo.SelecionarPorId(id));
+            return _mapper.Map<TipoLogViewModel>(_repo.ObterTipoLogId(id));
         }
 
-        public List<TipoLogViewModel> SelecionarTodos()
+        public List<TipoLogViewModel> ObterTodosTipoLogs()
         {
-            return _mapper.Map<List<TipoLogViewModel>>(_repo.SelecionarTodos());
+            return _mapper.Map<List<TipoLogViewModel>>(_repo.ObterTodosTipoLogs());
+        }
+
+        public Object OcorrenciasTipoLog()
+        {
+            return _repo.OcorrenciasTipoLog();
         }
     }
 }

@@ -33,14 +33,14 @@ namespace CentralErros.Application.App
             _repo.Incluir(_mapper.Map<Aviso>(entity));
         }
 
-        public AvisoViewModel SelecionarPorId(int id)
+        public AvisoViewModel ObterAvisoId(int id)
         {
-            return _mapper.Map<AvisoViewModel>(_repo.SelecionarPorId(id));
+            return _mapper.Map<AvisoViewModel>(_repo.ObterAvisoId(id));
         }
 
-        public List<AvisoViewModel> SelecionarTodos()
+        public List<AvisoViewModel> ObterTodosAvisos()
         {
-            return _mapper.Map<List<AvisoViewModel>>(_repo.SelecionarTodos());
+            return _mapper.Map<List<AvisoViewModel>>(_repo.ObterTodosAvisos());
         }
     }
 }

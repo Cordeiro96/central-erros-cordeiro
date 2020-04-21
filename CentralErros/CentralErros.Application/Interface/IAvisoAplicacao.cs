@@ -9,10 +9,10 @@ namespace CentralErros.Application.Interface
 
         void Alterar(AvisoViewModel entity);
 
-        AvisoViewModel SelecionarPorId(int id);
-
-        List<AvisoViewModel> SelecionarTodos();
-
         void Excluir(int id);
+
+        List<AvisoViewModel> ObterTodosAvisos();
+
+        AvisoViewModel ObterAvisoId(int id);
     }
 }
