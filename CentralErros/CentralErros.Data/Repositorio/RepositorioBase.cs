@@ -1,27 +1,30 @@
 ﻿using CentralErros.Domain.Repositorio;
 using System.Linq;
 using System.Collections.Generic;
+using CentralErros.Domain.Modelo;
 
 namespace CentralErros.Data.Repositorio
 {
     public class RepositorioBase<T> : IRepositorioBase<T> where T : class, IEntity
     {
         protected readonly Contexto _contexto;
-        public RepositorioBase()
+        public RepositorioBase(Contexto contexto)
         {
-            _contexto = new Contexto();
+            _contexto = contexto;
         }
 
-        public virtual void Incluir(T entity)
+        public virtual T Incluir(T entity)
         {
             _contexto.Set<T>().Add(entity);
             _contexto.SaveChanges();
+            return entity;
         }
 
-        public virtual void Alterar(T entity)
+        public virtual T Alterar(T entity)
         {
             _contexto.Set<T>().Update(entity);
             _contexto.SaveChanges();
+            return entity;
         }
 
         public T SelecionarPorId(int id)

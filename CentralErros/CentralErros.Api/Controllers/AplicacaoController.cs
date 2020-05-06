@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.Aplicacao;
+using CentralErros.Application.ViewModel.Aplicacao.AplicacaoLogs;
+using CentralErros.Application.ViewModel.Aplicacao.UsuarioAplicacao;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CentralErros.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AplicacaoController : ControllerBase
@@ -52,29 +58,51 @@ namespace CentralErros.Api.Controllers
             return Ok(_repo.ObterAplicacaoTipoLog(Convert.ToInt32(app_id), Convert.ToInt32(tipolog_id)));
         }
 
-        // POST: api/Aplicacao
-        [HttpPost]
-        public ActionResult<AplicacaoViewModel> Post([FromBody] AplicacaoViewModel aplicacao)
+        // GET: api/aplicacao/1/usuarios
+        [Authorize(Roles = "admin")]
+        [HttpGet("{app_id}/usuarios")]
+        public ActionResult<AplicacaoUsuarioViewModel_Aplicacao> GetAplicacaoUsuarios(int? app_id)
         {
-            aplicacao.Id = 0;
-            _repo.Incluir(aplicacao);
-            return Ok(aplicacao);
+            if (app_id == null)
+                return NoContent();
+            return Ok(_repo.ObterAplicacaoUsuarios(app_id.Value));
         }
 
-        // PUT: api/Aplicacao/5
+        // GET: api/aplicacao/1/logs
+        [HttpGet("{app_id}/logs")]
+        public ActionResult<AplicacaoLogsViewModel_Aplicacao> ObterAplicacaoLogs(int? app_id)
+        {
+            if (app_id == null)
+                return NoContent();
+            return Ok(_repo.ObterAplicacaoLogs(app_id.Value));
+        }
+
+        // POST: api/Aplicacao
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public ActionResult<AplicacaoSimplesViewModel> Post([FromBody] CadastroAplicacaoViewModel aplicacao)
+        {
+            var idUsuario = HttpContext.User.Claims.ToList()[0].Value;
+            var aplicacaoViewModel = _repo.Incluir(aplicacao, idUsuario);
+            return Ok(aplicacaoViewModel);
+        }
+
+        // PUT: api/Aplicacao
+        [Authorize(Roles = "admin")]
         [HttpPut]
-        public ActionResult<AplicacaoViewModel> Put([FromBody] AplicacaoViewModel aplicacao)
+        public ActionResult<AplicacaoSimplesViewModel> Put([FromBody] AplicacaoSimplesViewModel aplicacao)
         {
             _repo.Alterar(aplicacao);
             return Ok(_repo.ObterAplicacaoId(aplicacao.Id));
         }
 
-        // DELETE: api/ApiWithActions/5
+        [Authorize(Roles = "admin")]
+        // DELETE: api/Aplicacao/1
         [HttpDelete("{id}")]
-        public ActionResult<List<AplicacaoViewModel>> Delete(int id)
+        public ActionResult<string> Delete(int id)
         {
             _repo.Excluir(id);
-            return Ok(_repo.ObterTodosAplicacoes());
+            return Ok("Aplicação excluída com sucesso!");
         }
     }
 }

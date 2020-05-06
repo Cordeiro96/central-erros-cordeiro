@@ -1,4 +1,5 @@
 ﻿using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.Log;
 using System;
 using System.Collections.Generic;
 
@@ -6,9 +7,9 @@ namespace CentralErros.Application.Interface
 {
     public interface ILogAplicacao
     {
-        void Incluir(LogViewModel entity);
+        RetornoModificacaoLogViewModel Incluir(CadastroLogViewModel entity);
 
-        void Alterar(LogViewModel entity);
+        RetornoModificacaoLogViewModel Alterar(AlteraLogViewModel entity);
 
         List<LogViewModel> ObterTodosLogs();
 

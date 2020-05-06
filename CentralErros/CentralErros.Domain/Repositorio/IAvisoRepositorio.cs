@@ -5,7 +5,7 @@ namespace CentralErros.Domain.Repositorio
 {
     public interface IAvisoRepositorio : IRepositorioBase<Aviso>
     {
-        List<Aviso> ObterTodosAvisos();
+        List<Aviso> ObterTodosAvisos(string idUsuario);
         Aviso ObterAvisoId(int id);
     }
 }

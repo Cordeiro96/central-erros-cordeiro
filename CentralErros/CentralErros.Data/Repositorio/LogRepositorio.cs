@@ -9,26 +9,55 @@ namespace CentralErros.Data.Repositorio
 {
     public class LogRepositorio : RepositorioBase<Log>, ILogRepositorio
     {
-        public override void Incluir(Log log)
+        public LogRepositorio(Contexto contexto) : base(contexto)
+        {
+
+        }
+
+        public override Log Incluir(Log log)
         {
             var usuApps = _contexto.UsuariosAplicacoes.Where(x => x.IdAplicacao == log.IdAplicacao);
+            if (usuApps.Count() == 0)
+                return null;
+
             var usuAvisos = new List<UsuarioAviso>();
             foreach(var usuApp in usuApps)
             {
                 usuAvisos.Add(new UsuarioAviso() { IdUsuario = usuApp.IdUsuario });
             }
+
             DateTime date = DateTime.Now;
+            var tipolog = _contexto.TipoLog.FirstOrDefault(x => x.Id == log.IdTipoLog);
+            if (tipolog == null)
+                return null;
+
             var aviso = new Aviso
             {
-                Descricao = "AVISO! " + log.Descricao,
+                Descricao = "AVISO DE LOG ["+ tipolog.Descricao+"]! " + log.Descricao,
                 Data = date,
-                IdTipoLog = log.IdTipoLog,
                 UsuariosAvisos = usuAvisos
             };
             log.Data = date;
             _contexto.Aviso.Add(aviso);
             _contexto.Log.Add(log);
             _contexto.SaveChanges();
+            return log;
+        }
+
+        public override Log Alterar(Log log)
+        {
+            var logRepositorio = _contexto.Log.FirstOrDefault(x => x.Id == log.Id);
+            if (logRepositorio == null)
+                return null;
+
+            var tipolog = _contexto.TipoLog.FirstOrDefault(x => x.Id == log.IdTipoLog);
+            if (tipolog == null)
+                return null;
+
+            log.Data = logRepositorio.Data;
+            _contexto.Log.Update(log);
+            _contexto.SaveChanges();
+            return log;
         }
 
         public Log ObterLogId(int id)

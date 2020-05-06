@@ -1,5 +1,6 @@
 ﻿using CentralErros.Data.Map;
 using CentralErros.Domain.Modelo;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,20 +8,18 @@ using System.Text;
 
 namespace CentralErros.Data
 {
-    public class Contexto : DbContext
+    public class Contexto : IdentityDbContext<Usuario>
     {
         public DbSet<Aplicacao> Aplicacao { get; set; }
         public DbSet<Aviso> Aviso { get; set; }
         public DbSet<Log> Log { get; set; }
         public DbSet<TipoLog> TipoLog { get; set; }
-        public DbSet<Usuario> Usuario { get; set; }
         public DbSet<UsuarioAplicacao> UsuariosAplicacoes { get; set; }
         public DbSet<UsuarioAviso> UsuariosAvisos { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public Contexto(DbContextOptions<Contexto> options)
+            : base(options)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-REEDLKL\SQLEXPRESS;Database=CentralErros;Trusted_Connection=True;");
-            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

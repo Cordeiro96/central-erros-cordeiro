@@ -8,6 +8,5 @@ namespace CentralErros.Domain.Modelo
         public int Id { get; set; }
         public string Descricao { get; set; }
         public List<Log> Logs { get; set; }
-        public List<Aviso> Avisos { get; set; }
     }
 }

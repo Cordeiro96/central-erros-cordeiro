@@ -1,0 +1,27 @@
+- Auth #FEITO
+
+- Aplicacao
+* Ao incluir uma nova aplicação, automaticamente o admin que cadastrou fica vinculado no mesmo * #FEITO
+* Trazer todos os usuários que estão vinculados na aplicacação (Acesso apenas de ADMIN) * #FEITO
+* Trazer logs da aplicacao *
+* Checar busca aplicacao por ID *
+* Checar busca aplicacao por Nome *
+
+- Aviso
+
+- Log #FEITO
+* Obter avisos pelo usuário logado *
+
+- TipoLog #FEITO
+* TESTAR A OCORRÊNCIA DE TIPOLOGS QUANDO TIVER LOGS REGISTRADOS *
+
+- UsuarioAplicacao
+* Criar, Alterar ou excluir passando uma lista de ID's de aplicações *
+
+- UsuarioAviso
+* Setar como visualizado passando uma lista de ID's do aviso *
+
+- Usuario #FEITO
+* Método em que traz todas as aplicações em que o usuário está ligado * #FEITO
+* Método em que traz todos os avisos em que o usuário está ligado * #FEITO
+* Método que traz informações do próprio usuário * #FEITO

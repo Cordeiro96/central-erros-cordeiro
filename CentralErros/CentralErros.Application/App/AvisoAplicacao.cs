@@ -38,9 +38,10 @@ namespace CentralErros.Application.App
             return _mapper.Map<AvisoViewModel>(_repo.ObterAvisoId(id));
         }
 
-        public List<AvisoViewModel> ObterTodosAvisos()
+        public List<AvisoViewModel> ObterTodosAvisos(string idUsuario)
         {
-            return _mapper.Map<List<AvisoViewModel>>(_repo.ObterTodosAvisos());
+            var avisoViewModel = _mapper.Map<List<AvisoViewModel>>(_repo.ObterTodosAvisos(idUsuario));
+            return avisoViewModel;
         }
     }
 }

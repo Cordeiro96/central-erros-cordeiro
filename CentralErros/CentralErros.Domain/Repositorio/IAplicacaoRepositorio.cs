@@ -5,6 +5,9 @@ namespace CentralErros.Domain.Repositorio
 {
     public interface IAplicacaoRepositorio : IRepositorioBase<Aplicacao>
     {
+        Aplicacao ObterAplicacaoUsuarios(int idAplicacao);
+        Aplicacao ObterAplicacaoLogs(int idAplicacao);
+        Aplicacao Incluir(Aplicacao aplicacao, string idUsuario);
         List<Aplicacao> ObterTodosAplicacoes();
         Aplicacao ObterAplicacaoId(int id);
         List<Aplicacao> ObterAplicacaoNome(string nome);

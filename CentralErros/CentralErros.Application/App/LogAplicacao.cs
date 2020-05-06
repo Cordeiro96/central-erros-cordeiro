@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.Log;
 using CentralErros.Domain.Modelo;
 using CentralErros.Domain.Repositorio;
 using System;
@@ -19,9 +20,10 @@ namespace CentralErros.Application.App
             _mapper = mapper;
         }
 
-        public void Alterar(LogViewModel entity)
+        public RetornoModificacaoLogViewModel Alterar(AlteraLogViewModel entity)
         {
-            _repo.Alterar(_mapper.Map<Log>(entity));
+            var logViewModel = _mapper.Map<RetornoModificacaoLogViewModel>(_repo.Alterar(_mapper.Map<Log>(entity)));
+            return logViewModel;
         }
 
         public void Excluir(int id)
@@ -29,9 +31,10 @@ namespace CentralErros.Application.App
             _repo.Excluir(id);
         }
 
-        public void Incluir(LogViewModel entity)
+        public RetornoModificacaoLogViewModel Incluir(CadastroLogViewModel entity)
         {
-            _repo.Incluir(_mapper.Map<Log>(entity));
+            var logViewModel = _mapper.Map<RetornoModificacaoLogViewModel>(_repo.Incluir(_mapper.Map<Log>(entity)));
+            return logViewModel;
         }
 
         public LogViewModel ObterLogId(int id)
@@ -86,6 +89,8 @@ namespace CentralErros.Application.App
             var toplog = ObterInfoTopLogViewModel(id_aplicacao);
             if (toplog.Nome != "")
                 return toplog;
+
+
             return new { Aviso = "Não há registro de aplicação com o ID " + id_aplicacao };
         }
     }

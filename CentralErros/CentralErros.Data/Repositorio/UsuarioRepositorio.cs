@@ -1,66 +1,104 @@
 ﻿using CentralErros.Domain.Modelo;
 using CentralErros.Domain.Repositorio;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CentralErros.Data.Repositorio
 {
-    public class UsuarioRepositorio : RepositorioBase<Usuario>, IUsuarioRepositorio
+    public class UsuarioRepositorio : IUsuarioRepositorio
     {
-        public List<Usuario> ObterTodosUsuarios()
+        private readonly UserManager<Usuario> _userManager;
+        private readonly Contexto _contexto;
+
+        public UsuarioRepositorio(UserManager<Usuario> userManager, Contexto contexto)
         {
-            IQueryable<Usuario> usuarios = _contexto.Usuario
-                .Include(x => x.UsuariosAvisos)
-                .Include(x => x.UsuariosAplicacoes);
-
-            usuarios = usuarios.Include(x => x.UsuariosAvisos).ThenInclude(up => up.Aviso);
-            usuarios = usuarios.Include(x => x.UsuariosAplicacoes).ThenInclude(up => up.Aplicacao);
-
-            return usuarios.AsNoTracking().ToList();
+            _userManager = userManager;
+            _contexto = contexto;
         }
 
-        public Usuario ObterUsuarioId(int id)
+        public async Task<Usuario> Registrar(string nome, string email, string senha, string role)
         {
-            IQueryable<Usuario> usuarios = _contexto.Usuario
-                .Where(x => x.Id == id)
-                .Include(x => x.UsuariosAvisos)
+            var usu = new Usuario()
+            {
+                UserName = nome,
+                Email = email,
+                Role = role,
+                EmailConfirmed = true
+            };
+
+            var retorno = await _userManager.CreateAsync(usu, senha);
+
+            if (!retorno.Succeeded)
+                return null;
+
+            return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<Usuario> Logar(string email, string senha)
+        {
+            var usuario = await _userManager.FindByEmailAsync(email);
+            if (usuario != null &&
+                await _userManager.CheckPasswordAsync(usuario, senha))
+            {
+                return usuario;
+            }
+            return null;
+        }
+
+        public Usuario ObterUsuarioAplicacoes(string idUsuario)
+        {
+            IQueryable<Usuario> usuarios = _contexto.Users
+                .Where(x => x.Id == idUsuario)
                 .Include(x => x.UsuariosAplicacoes);
 
-            usuarios = usuarios.Include(x => x.UsuariosAvisos).ThenInclude(up => up.Aviso);
             usuarios = usuarios.Include(x => x.UsuariosAplicacoes).ThenInclude(up => up.Aplicacao);
 
             return usuarios.AsNoTracking().FirstOrDefault();
         }
 
-        public List<Usuario> ObterUsuarioNome(string nome)
+        public Usuario ObterUsuarioAvisos(string idUsuario)
         {
-            IQueryable<Usuario> usuarios = _contexto.Usuario
-                .Where(x => x.Nome.Contains(nome))
-                .Include(x => x.UsuariosAvisos)
-                .Include(x => x.UsuariosAplicacoes);
+            IQueryable<Usuario> usuarios = _contexto.Users
+                .Where(x => x.Id == idUsuario)
+                .Include(x => x.UsuariosAvisos);
 
             usuarios = usuarios.Include(x => x.UsuariosAvisos).ThenInclude(up => up.Aviso);
-            usuarios = usuarios.Include(x => x.UsuariosAplicacoes).ThenInclude(up => up.Aplicacao);
 
-            return usuarios.AsNoTracking().ToList();
+            return usuarios.AsNoTracking().FirstOrDefault();
         }
 
-        public override void Alterar(Usuario usuario)
+        public Usuario ObterUsuarioId(string idUsuario)
         {
-            var usuApps = _contexto.UsuariosAplicacoes.Where(x => x.IdUsuario == usuario.Id);
-            foreach (var usuApp in usuApps)
-            {
-                _contexto.UsuariosAplicacoes.Remove(usuApp);                
-            }
-            var usuAvisos = _contexto.UsuariosAvisos.Where(x => x.IdUsuario == usuario.Id);
-            foreach (var usuAviso in usuAvisos)
-            {
-                _contexto.UsuariosAvisos.Remove(usuAviso);
-            }
-            _contexto.Usuario.Update(usuario);
-            _contexto.SaveChanges();
+            return _userManager.FindByIdAsync(idUsuario).GetAwaiter().GetResult();
+        }
+
+        public async Task<Usuario> Alterar(string Id, string nome, string email, string role)
+        {
+            var usuario = await _userManager.FindByIdAsync(Id);
+            usuario.UserName = nome;
+            usuario.Email = email;
+            usuario.Role = role;
+
+            var retorno = await _userManager.UpdateAsync(usuario);
+
+            if (!retorno.Succeeded)
+                return null;
+
+            return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<bool> Deletar(string Id)
+        {
+            var usuario = await _userManager.FindByIdAsync(Id);
+
+            var retorno = await _userManager.DeleteAsync(usuario);
+
+            if (!retorno.Succeeded)
+                return false;
+            return true;
         }
     }
 }

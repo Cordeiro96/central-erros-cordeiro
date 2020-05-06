@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.TipoLog;
 using CentralErros.Domain.Modelo;
 using CentralErros.Domain.Repositorio;
 using System;
@@ -19,9 +20,10 @@ namespace CentralErros.Application.App
             _mapper = mapper;
         }
 
-        public void Alterar(TipoLogViewModel entity)
+        public TipoLogViewModel Alterar(AlteraTipoLogViewModel entity)
         {
-            _repo.Alterar(_mapper.Map<TipoLog>(entity));
+            var tipoLog = _repo.Alterar(_mapper.Map<TipoLog>(entity));
+            return _mapper.Map<TipoLogViewModel>(tipoLog);
         }
 
         public void Excluir(int id)
@@ -29,9 +31,10 @@ namespace CentralErros.Application.App
             _repo.Excluir(id);
         }
 
-        public void Incluir(TipoLogViewModel entity)
+        public TipoLogViewModel Incluir(CadastroTipoLogViewModel entity)
         {
-            _repo.Incluir(_mapper.Map<TipoLog>(entity));
+            var tipoLog = _repo.Incluir(_mapper.Map<TipoLog>(entity));
+            return _mapper.Map<TipoLogViewModel>(tipoLog);
         }
 
         public TipoLogViewModel ObterTipoLogId(int id)
@@ -46,6 +49,7 @@ namespace CentralErros.Application.App
 
         public Object OcorrenciasTipoLog()
         {
+            //_mapper.Map<List<OcorrenciaTipoLogViewModel>>(_repo.OcorrenciasTipoLog());
             return _repo.OcorrenciasTipoLog();
         }
     }

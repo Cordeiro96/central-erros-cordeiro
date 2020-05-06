@@ -11,7 +11,7 @@ namespace CentralErros.Application.Interface
 
         void Excluir(int id);
 
-        List<AvisoViewModel> ObterTodosAvisos();
+        List<AvisoViewModel> ObterTodosAvisos(string idUsuario);
 
         AvisoViewModel ObterAvisoId(int id);
     }

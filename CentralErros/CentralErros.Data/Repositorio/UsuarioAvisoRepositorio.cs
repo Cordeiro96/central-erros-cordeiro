@@ -5,5 +5,9 @@ namespace CentralErros.Data.Repositorio
 {
     public class UsuarioAvisoRepositorio : RepositorioBase<UsuarioAviso>, IUsuarioAvisoRepositorio
     {
+        public UsuarioAvisoRepositorio(Contexto contexto) : base(contexto)
+        {
+
+        }
     }
 }

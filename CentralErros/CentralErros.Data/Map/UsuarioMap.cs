@@ -8,24 +8,8 @@ namespace CentralErros.Data.Map
     {
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {
-            builder.ToTable("Usuario");
-
-            builder.HasKey(x => x.Id);
-
-            builder.Property(x => x.Nome)
-                .HasColumnType("varchar(100)")
-                .IsRequired();
-
-            builder.Property(x => x.Email)
-                .HasColumnType("varchar(100)")
-                .IsRequired();
-
-            builder.Property(x => x.Senha)
-                .HasColumnType("varchar(100)")
-                .IsRequired();
-
-            builder.Property(x => x.Nivel)
-                .HasColumnType("smallint")
+            builder.Property(x => x.Role)
+                .HasColumnType("varchar(10)")
                 .IsRequired();
         }
     }

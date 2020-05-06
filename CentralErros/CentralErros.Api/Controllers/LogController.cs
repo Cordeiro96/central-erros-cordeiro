@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.Log;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CentralErros.Api.Controllers
@@ -54,19 +55,22 @@ namespace CentralErros.Api.Controllers
 
         // POST: api/Log
         [HttpPost]
-        public ActionResult<LogViewModel> Post([FromBody] LogViewModel log)
+        public ActionResult<RetornoModificacaoLogViewModel> Post([FromBody] CadastroLogViewModel log)
         {
-            log.Id = 0;
-            _repo.Incluir(log);
-            return Ok(log);
+            var logViewModel = _repo.Incluir(log);
+            if (logViewModel == null)
+                return BadRequest();
+            return Ok(logViewModel);
         }
 
         // PUT: api/Log/5
         [HttpPut]
-        public ActionResult<LogViewModel> Put([FromBody] LogViewModel log)
+        public ActionResult<RetornoModificacaoLogViewModel> Put([FromBody] AlteraLogViewModel log)
         {
-            _repo.Alterar(log);
-            return Ok(_repo.ObterLogId(log.Id));
+            var logViewModel = _repo.Alterar(log);
+            if (logViewModel == null)
+                return BadRequest();
+            return Ok(logViewModel);
         }
 
         // DELETE: api/ApiWithActions/5

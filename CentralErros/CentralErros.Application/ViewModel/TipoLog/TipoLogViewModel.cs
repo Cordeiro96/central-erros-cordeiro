@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CentralErros.Application.ViewModel.TipoLog;
+using System.Collections.Generic;
 
 namespace CentralErros.Application.ViewModel
 {
@@ -6,6 +7,6 @@ namespace CentralErros.Application.ViewModel
     {
         public int Id { get; set; }
         public string Descricao { get; set; }
-        public List<LogViewModel> Logs { get; set; }
+        public List<LogViewModel_TipoLog> Logs { get; set; }
     }
 }

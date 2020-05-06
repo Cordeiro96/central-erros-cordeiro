@@ -16,6 +16,9 @@ namespace CentralErros.Data.Map
                 .HasColumnType("varchar(500)")
                 .IsRequired();
 
+            builder.Property(x => x.Visualizado)
+                 .HasColumnType("TINYINT");
+
             builder.Property(x => x.Data)
                 .HasColumnType("smalldatetime")
                 .IsRequired();

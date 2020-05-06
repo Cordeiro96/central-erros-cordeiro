@@ -9,12 +9,15 @@ namespace CentralErros.Data.Repositorio
 {
     public class TipoLogRepositorio : RepositorioBase<TipoLog>, ITipoLogRepositorio
     {
+        public TipoLogRepositorio(Contexto contexto) : base(contexto)
+        {
+        }
+
         public TipoLog ObterTipoLogId(int id)
         {
             IQueryable<TipoLog> tipoLog = _contexto.TipoLog
                 .Where(x => x.Id == id)
-                .Include(x => x.Logs)
-                .Include(x => x.Avisos);
+                .Include(x => x.Logs);
 
             return tipoLog.AsNoTracking().FirstOrDefault();
         }
@@ -22,8 +25,7 @@ namespace CentralErros.Data.Repositorio
         public List<TipoLog> ObterTodosTipoLogs()
         {
             IQueryable<TipoLog> tipoLog = _contexto.TipoLog
-                .Include(x => x.Logs)
-                .Include(x => x.Avisos);
+                .Include(x => x.Logs);
 
             return tipoLog.AsNoTracking().ToList();
         }

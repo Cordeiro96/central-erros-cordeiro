@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.TipoLog;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CentralErros.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TipoLogController : ControllerBase
@@ -37,23 +40,25 @@ namespace CentralErros.Api.Controllers
         }
 
         // POST: api/TipoLog
+        [Authorize(Roles = "admin")]
         [HttpPost]
-        public TipoLogViewModel Post([FromBody] TipoLogViewModel tipoLog)
+        public TipoLogViewModel Post([FromBody] CadastroTipoLogViewModel tipoLog)
         {
-            tipoLog.Id = 0;
-            _repo.Incluir(tipoLog);
-            return tipoLog;
+            var tipoLogViewModel = _repo.Incluir(tipoLog);
+            return tipoLogViewModel;
         }
 
         // PUT: api/TipoLog/5
-        [HttpPut("{id}")]
-        public TipoLogViewModel Put( [FromBody] TipoLogViewModel tipoLog)
+        [Authorize(Roles = "admin")]
+        [HttpPut]
+        public ActionResult<TipoLogViewModel> Put([FromBody] AlteraTipoLogViewModel tipoLog)
         {
-            _repo.Alterar(tipoLog);
-            return tipoLog;
+            var tipoLogViewModel = _repo.Alterar(tipoLog);
+            return tipoLogViewModel;
         }
 
         // DELETE: api/ApiWithActions/5
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public List<TipoLogViewModel> Delete(int id)
         {

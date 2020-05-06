@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.Usuario;
+using CentralErros.Application.ViewModel.Usuario.UsuarioAviso;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CentralErros.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsuarioController : ControllerBase
@@ -17,57 +22,44 @@ namespace CentralErros.Api.Controllers
             _repo = repo;
         }
 
-        // GET: api/Usuario
-        [HttpGet]
-        public ActionResult<IEnumerable<UsuarioViewModel>> Get()
+        // GET: api/usuario/usuario-apps
+        [HttpGet("aplicacoes")]
+        public ActionResult<UsuarioAppsViewModel_Usuario> GetUsuarioApps()
         {
-            return Ok(_repo.ObterTodosUsuarios());
+            return Ok(_repo.ObterUsuarioAplicacoes(HttpContext.User.Claims.ToList()[0].Value));
         }
 
-        // GET: api/Usuario/5
-        [HttpGet("id/{id}")]
-        public ActionResult<UsuarioViewModel> GetUserId(int? id)
+        // GET: api/usuario/usuario-avisos
+        [HttpGet("avisos")]
+        public ActionResult<UsuarioAvisosViewModel_Usuario> GetUsuarioAvisos()
         {
-            if (id == null)
-                return NoContent();
-
-            return _repo.ObterUsuarioId(Convert.ToInt32(id));
+            return Ok(_repo.ObterUsuarioAvisos(HttpContext.User.Claims.ToList()[0].Value));
         }
 
-        [HttpGet("nome/{nome}")]
-        public ActionResult<IEnumerable<UsuarioViewModel>> GetUserNome(string nome)
+        // GET: api/usuario/registro
+        [HttpGet("registro")]
+        public ActionResult<UsuarioViewModel> GetRegistro()
         {
-            if (nome == null)
-                return NoContent();
-            
-            return Ok(_repo.ObterUsuarioNome(nome));
+            return Ok(_repo.ObterUsuarioId(HttpContext.User.Claims.ToList()[0].Value));
         }
 
-        // POST: api/Usuario
-        [HttpPost]
-        public ActionResult<UsuarioViewModel> Post([FromBody] UsuarioViewModel usuario)
-        {
-            usuario.Id = 0;
-            _repo.Incluir(usuario);
-            return Ok(usuario);
-        }
-
-        // PUT: api/Usuario/5
+        //PUT: api/Usuario
         [HttpPut]
-        public ActionResult<UsuarioViewModel> Put([FromBody] UsuarioViewModel usuario)
+        public ActionResult<UsuarioViewModel> Put([FromBody] AlterarUsuarioViewModel usuario)
         {
-            if (usuario.Id == 0)
-                return NoContent();
-            _repo.Alterar(usuario);
-            return Ok(_repo.ObterUsuarioId(usuario.Id));
+            string Id = HttpContext.User.Claims.ToList()[0].Value;
+            _repo.Alterar(usuario, Id);
+            return Ok(_repo.ObterUsuarioId(Id));
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public ActionResult<List<UsuarioViewModel>> Delete(int id)
+        // DELETE: api/Usuario
+        [HttpDelete]
+        public ActionResult<string> Delete()
         {
-            _repo.Excluir(id);
-            return Ok(_repo.ObterTodosUsuarios());
+            var excluido = _repo.Deletar(HttpContext.User.Claims.ToList()[0].Value);
+            if (excluido)
+                return Ok("Usuário excluído com sucesso!");
+            return BadRequest("Problemas ao excluir usuário");
         }
     }
 }

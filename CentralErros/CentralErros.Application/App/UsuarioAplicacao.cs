@@ -1,9 +1,18 @@
 ﻿using AutoMapper;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.Usuario;
+using CentralErros.Application.ViewModel.Usuario.UsuarioAviso;
 using CentralErros.Domain.Modelo;
 using CentralErros.Domain.Repositorio;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CentralErros.Application.App
 {
@@ -11,46 +20,138 @@ namespace CentralErros.Application.App
     {
         private readonly IUsuarioRepositorio _repo;
         private readonly IMapper _mapper;
+        private readonly Token _token;
 
-        public UsuarioAplicacao(IUsuarioRepositorio repo, IMapper mapper)
+        public UsuarioAplicacao(IUsuarioRepositorio repo, IMapper mapper, IOptions<Token> token)
         {
             _repo = repo;
             _mapper = mapper;
+            _token = token.Value;
         }
 
-        public void Alterar(UsuarioViewModel entity)
+        public UsuarioAppsViewModel_Usuario ObterUsuarioAplicacoes(string idUsuario)
         {
-            _repo.Alterar(_mapper.Map<Usuario>(entity));
+            var usuarioViewModel = new UsuarioAppsViewModel_Usuario()
+            {
+                IdUsuario = idUsuario,
+                Aplicacoes = new List<AplicacaoViewModel_Usuario>()
+            };
+            var usuario = _repo.ObterUsuarioAplicacoes(idUsuario);
+            if (usuario != null)
+            {
+                foreach(var usuarioAplicacao in usuario.UsuariosAplicacoes)
+                {
+                    usuarioViewModel.Aplicacoes.Add(new AplicacaoViewModel_Usuario()
+                    {
+                        IdAplicacao = usuarioAplicacao.Aplicacao.Id,
+                        Nome = usuarioAplicacao.Aplicacao.Nome,
+                        Descricao = usuarioAplicacao.Aplicacao.Descricao
+                    });
+                }
+            }
+            return usuarioViewModel;
         }
 
-        public void Excluir(int id)
+        public UsuarioAvisosViewModel_Usuario ObterUsuarioAvisos(string idUsuario)
         {
-            _repo.Excluir(id);
+            var usuarioViewModel = new UsuarioAvisosViewModel_Usuario()
+            {
+                IdUsuario = idUsuario,
+                Avisos = new List<AvisoViewModel_Usuario>()
+            };
+            var usuario = _repo.ObterUsuarioAvisos(idUsuario);
+            if (usuario != null)
+            {
+                foreach (var usuarioAviso in usuario.UsuariosAvisos)
+                {
+                    if (!usuarioAviso.Aviso.Visualizado)
+                    {
+                        usuarioViewModel.Avisos.Add(new AvisoViewModel_Usuario()
+                        {
+                            Id = usuarioAviso.Aviso.Id,
+                            Descricao = usuarioAviso.Aviso.Descricao,
+                            Visualizado = usuarioAviso.Aviso.Visualizado,
+                            Data = usuarioAviso.Aviso.Data
+                        });
+                    }
+                }
+            }
+            return usuarioViewModel;
         }
 
-        public void Incluir(UsuarioViewModel entity)
+        public async Task<AvisoLoginViewModel> Registrar(RegistrarUsuarioViewModel regUsuario)
         {
-            _repo.Incluir(_mapper.Map<Usuario>(entity));
+            var usuario = await _repo.Registrar(regUsuario.Nome, regUsuario.Email, regUsuario.Senha, regUsuario.Role);
+            var avisoLogin = new AvisoLoginViewModel()
+            {
+                Descricao = "Problemas ao registrar usuário",
+                Token = null
+            };
+            if (usuario != null)
+            {
+                var token = GerarToken(usuario);
+                avisoLogin.Descricao = "Usuário registrado com sucesso!";
+                avisoLogin.Token = token;
+            }
+            return avisoLogin;
         }
 
-        public List<UsuarioViewModel> ObterUsuarioNome(string nome)
+        public async Task<AvisoLoginViewModel> Logar(LogarUsuarioViewModel logUsuario)
         {
-            return _mapper.Map<List<UsuarioViewModel>>(_repo.ObterUsuarioNome(nome));
+            var usuario = await _repo.Logar(logUsuario.Email, logUsuario.Senha);
+            var token = GerarToken(usuario);
+            var avisoLogin = new AvisoLoginViewModel()
+            {
+                Descricao = "Email ou senha inválido!",
+                Token = null
+            };
+            if (token != "")
+            {
+                avisoLogin.Descricao = "Usuário logado com sucesso!";
+                avisoLogin.Token = token;
+            }
+            return avisoLogin;
         }
 
-        public List<UsuarioViewModel> ObterTodosUsuarios()
+        public string GerarToken(Usuario usuario)
         {
-            return _mapper.Map<List<UsuarioViewModel>>(_repo.ObterTodosUsuarios());
+            if (usuario == null) return "";
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_token.Secret);
+
+            var descriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim("Id", usuario.Id),
+                    new Claim(ClaimTypes.Name, usuario.UserName),
+                    new Claim(ClaimTypes.Role, usuario.Role)
+                }),
+                Issuer = _token.Emissor,
+                Audience = _token.ValidoEm,
+                Expires = DateTime.UtcNow.AddHours(_token.ExpiracaoHoras),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), 
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(descriptor);
+
+            return tokenHandler.WriteToken(token);
         }
 
-        public UsuarioViewModel ObterUsuarioId(int id)
+        public UsuarioViewModel ObterUsuarioId(string idUsuario)
         {
-            return _mapper.Map<UsuarioViewModel>(_repo.ObterUsuarioId(id));
+            return _mapper.Map<UsuarioViewModel>(_repo.ObterUsuarioId(idUsuario));
         }
 
-        public List<UsuarioViewModel> SelecionarTodos()
+        public UsuarioViewModel Alterar(AlterarUsuarioViewModel usuario, string id)
         {
-            return _mapper.Map<List<UsuarioViewModel>>(_repo.SelecionarTodos());
+            return _mapper.Map<UsuarioViewModel>(_repo.Alterar(id, usuario.UserName, usuario.Email, usuario.Role).GetAwaiter().GetResult()); ;
+        }
+
+        public bool Deletar(string Id)
+        {
+            return _repo.Deletar(Id).GetAwaiter().GetResult();
         }
     }
 }

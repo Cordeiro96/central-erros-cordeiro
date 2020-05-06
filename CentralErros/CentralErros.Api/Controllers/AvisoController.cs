@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,8 @@ namespace CentralErros.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<AvisoViewModel>> Get()
         {
-            return Ok(_repo.ObterTodosAvisos());
+            var idUsuario = HttpContext.User.Claims.ToList()[0].Value;
+            return Ok(_repo.ObterTodosAvisos(idUsuario));
         }
 
         // GET: api/Aviso/5
@@ -51,12 +53,12 @@ namespace CentralErros.Api.Controllers
             return Ok(_repo.ObterAvisoId(aviso.Id));
         }
 
-        // DELETE: api/ApiWithActions/5
+        /*// DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public ActionResult<List<AvisoViewModel>> Delete(int id)
         {
             _repo.Excluir(id);
             return _repo.ObterTodosAvisos();
-        }
+        }*/
     }
 }

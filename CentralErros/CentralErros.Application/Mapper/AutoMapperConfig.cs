@@ -1,6 +1,11 @@
 ﻿using AutoMapper;
 using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.Aplicacao;
+using CentralErros.Application.ViewModel.Aplicacao.AplicacaoLogs;
+using CentralErros.Application.ViewModel.Log;
+using CentralErros.Application.ViewModel.TipoLog;
 using CentralErros.Domain.Modelo;
+using System;
 
 namespace CentralErros.Application.Mapper
 {
@@ -14,9 +19,21 @@ namespace CentralErros.Application.Mapper
         public AutoMapperConfig()
         {
             CreateMap<Aplicacao, AplicacaoViewModel>().ReverseMap();
+            CreateMap<Aplicacao, CadastroAplicacaoViewModel>().ReverseMap();
+            CreateMap<Aplicacao, AplicacaoSimplesViewModel>().ReverseMap();
+            CreateMap<Aplicacao, AplicacaoViewModel_Log>().ReverseMap();
             CreateMap<Aviso, AvisoViewModel>().ReverseMap();
+            CreateMap<Log, RetornoModificacaoLogViewModel>().ReverseMap();
+            CreateMap<Log, AlteraLogViewModel>().ReverseMap();
             CreateMap<Log, LogViewModel>().ReverseMap();
+            CreateMap<Log, CadastroLogViewModel>().ReverseMap();
+            CreateMap<Log, LogsViewModel_Aplicacao>().ReverseMap(); //teste - tem a ver com o produto
+            CreateMap<Log, LogViewModel_TipoLog>().ReverseMap();
+            CreateMap<TipoLog, TipoLogViewModel_Log>().ReverseMap();
             CreateMap<TipoLog, TipoLogViewModel>().ReverseMap();
+            CreateMap<TipoLog, CadastroTipoLogViewModel>().ReverseMap();
+            CreateMap<TipoLog, AlteraTipoLogViewModel>().ReverseMap();
+            CreateMap<TipoLog, TipoLogViewModel_Aplicacao>().ReverseMap(); //teste - tem a ver com o produto
             CreateMap<UsuarioAplicacao, UsuarioAplicacaoViewModel>().ReverseMap();
             CreateMap<UsuarioAviso, UsuarioAvisoViewModel>().ReverseMap();
             CreateMap<Usuario, UsuarioViewModel>().ReverseMap();

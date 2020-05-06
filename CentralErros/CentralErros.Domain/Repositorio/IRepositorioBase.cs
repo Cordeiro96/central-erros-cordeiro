@@ -5,9 +5,9 @@ namespace CentralErros.Domain.Repositorio
 {
     public interface IRepositorioBase<T> : IDisposable where T : class, IEntity
     {
-        void Incluir(T entity);
+        T Incluir(T entity);
 
-        void Alterar(T entity);
+        T Alterar(T entity);
 
         T SelecionarPorId(int id);
 
