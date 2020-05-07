@@ -7,6 +7,7 @@ using CentralErros.Data;
 using CentralErros.Data.Repositorio;
 using CentralErros.Domain.Modelo;
 using CentralErros.Domain.Repositorio;
+using CentralErros.Infra.Ioc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,12 +34,12 @@ namespace CentralErros.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Configuração para quebrar a referência cicular da resposta da api
+            Bootstrap.RegistrarServices(services, Configuration);
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddScoped(typeof(IRepositorioBase<>), typeof(RepositorioBase<>));
+            /*services.AddScoped(typeof(IRepositorioBase<>), typeof(RepositorioBase<>));
             services.AddScoped<IAplicacaoRepositorio, AplicacaoRepositorio>();
             services.AddScoped<IAvisoRepositorio, AvisoRepositorio>();
             services.AddScoped<ILogRepositorio, LogRepositorio>();
@@ -53,7 +54,7 @@ namespace CentralErros.Api
             services.AddScoped<ITipoLogAplicacao, TipoLogAplicacao>();            
             services.AddScoped<IUsuarioAplicacaoAplicacao, UsuarioAplicacaoAplicacao>();
             services.AddScoped<IUsuarioAvisoAplicacao, UsuarioAvisoAplicacao>();
-            services.AddScoped<IUsuarioAplicacao, Application.App.UsuarioAplicacao>();
+            services.AddScoped<IUsuarioAplicacao, Application.App.UsuarioAplicacao>();*/
 
             services.AddAutoMapper(typeof(AutoMapperConfig));
 

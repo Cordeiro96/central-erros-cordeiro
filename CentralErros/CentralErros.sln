@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CentralErros.Domain", "Cent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CentralErros.Data", "CentralErros.Data\CentralErros.Data.csproj", "{A2F4C702-A5D6-43EF-B6B3-793B6CC88107}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentralErros.Application", "CentralErros.Application\CentralErros.Application.csproj", "{2C8876C7-6581-42FF-8D9E-C533C45EFA32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CentralErros.Application", "CentralErros.Application\CentralErros.Application.csproj", "{2C8876C7-6581-42FF-8D9E-C533C45EFA32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentralErros.Infra.Ioc", "CentralErros.Infra.Ioc\CentralErros.Infra.Ioc.csproj", "{CED6CE39-2847-4CB8-BF65-8E9C26FD40A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{2C8876C7-6581-42FF-8D9E-C533C45EFA32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C8876C7-6581-42FF-8D9E-C533C45EFA32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C8876C7-6581-42FF-8D9E-C533C45EFA32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CED6CE39-2847-4CB8-BF65-8E9C26FD40A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CED6CE39-2847-4CB8-BF65-8E9C26FD40A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CED6CE39-2847-4CB8-BF65-8E9C26FD40A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CED6CE39-2847-4CB8-BF65-8E9C26FD40A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
