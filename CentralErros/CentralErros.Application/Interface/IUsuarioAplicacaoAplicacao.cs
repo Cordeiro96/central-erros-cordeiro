@@ -1,14 +1,14 @@
 ﻿using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.UsuarioAplicacao;
 using System.Collections.Generic;
 
 namespace CentralErros.Application.Interface
 {
     public interface IUsuarioAplicacaoAplicacao
     {
-        void Incluir(UsuarioAplicacaoViewModel entity);
-        void Alterar(UsuarioAplicacaoViewModel entity);
-        UsuarioAplicacaoViewModel SelecionarPorId(int id);
-        List<UsuarioAplicacaoViewModel> SelecionarTodos();
-        void Excluir(int id);
+        UsuarioAplicacaoViewModel VinculaUsuarioAplicacao(ModificaViewModel_UsuarioAplicacao usuarioAplicacao,
+            string idUsuario);
+        bool ExcluirUsuarioAplicacao(ModificaViewModel_UsuarioAplicacao usuarioAplicacao, 
+            string idUsuario);
     }
 }

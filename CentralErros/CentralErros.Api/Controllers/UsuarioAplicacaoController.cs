@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.UsuarioAplicacao;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,42 +19,24 @@ namespace CentralErros.Api.Controllers
             _repo = repo;
         }
 
-        // GET: api/UsuariosAplicacoes
-        [HttpGet]
-        public IEnumerable<UsuarioAplicacaoViewModel> Get()
-        {
-            return _repo.SelecionarTodos();
-        }
-
-        // GET: api/UsuariosAplicacoes/5
-        [HttpGet("{id}")]
-        public UsuarioAplicacaoViewModel Get(int id)
-        {
-            return _repo.SelecionarPorId(id);
-        }
-
-        // POST: api/UsuariosAplicacoes
         [HttpPost]
-        public UsuarioAplicacaoViewModel Post([FromBody] UsuarioAplicacaoViewModel usuariosAplicacoes)
+        public ActionResult<UsuarioAplicacaoViewModel> Post([FromBody] ModificaViewModel_UsuarioAplicacao usuarioAplicacao)
         {
-            _repo.Incluir(usuariosAplicacoes);
-            return usuariosAplicacoes;
+            var idUsuario = HttpContext.User.Claims.ToList()[0].Value;
+            var usuAppViewModel = _repo.VinculaUsuarioAplicacao(usuarioAplicacao, idUsuario);
+            if (usuAppViewModel == null)
+                return BadRequest();
+            return Ok(usuAppViewModel);
         }
 
-        // PUT: api/UsuariosAplicacoes/5
-        [HttpPut]
-        public UsuarioAplicacaoViewModel Put([FromBody] UsuarioAplicacaoViewModel usuariosAplicacoes)
+        [HttpDelete]
+        public ActionResult<string> Delete(ModificaViewModel_UsuarioAplicacao usuarioAplicacao)
         {
-            _repo.Alterar(usuariosAplicacoes);
-            return usuariosAplicacoes;
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public List<UsuarioAplicacaoViewModel> Delete(int id)
-        {
-            _repo.Excluir(id);
-            return _repo.SelecionarTodos();
+            var idUsuario = HttpContext.User.Claims.ToList()[0].Value;
+            var excluido = _repo.ExcluirUsuarioAplicacao(usuarioAplicacao, idUsuario);
+            if (!excluido)
+                return BadRequest();
+            return Ok("Registro com aplicação excluída com sucesso!");
         }
     }
 }

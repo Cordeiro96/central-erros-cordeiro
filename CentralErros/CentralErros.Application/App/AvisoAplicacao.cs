@@ -33,11 +33,6 @@ namespace CentralErros.Application.App
             _repo.Incluir(_mapper.Map<Aviso>(entity));
         }
 
-        public AvisoViewModel ObterAvisoId(int id)
-        {
-            return _mapper.Map<AvisoViewModel>(_repo.ObterAvisoId(id));
-        }
-
         public List<AvisoViewModel> ObterTodosAvisos(string idUsuario)
         {
             var avisoViewModel = _mapper.Map<List<AvisoViewModel>>(_repo.ObterTodosAvisos(idUsuario));

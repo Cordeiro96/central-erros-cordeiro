@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
+using CentralErros.Application.ViewModel.UsuarioAplicacao;
 using CentralErros.Domain.Repositorio;
 using System.Collections.Generic;
 
@@ -17,29 +18,18 @@ namespace CentralErros.Application.App
             _mapper = mapper;
         }
 
-        public void Alterar(UsuarioAplicacaoViewModel entity)
+        public bool ExcluirUsuarioAplicacao(ModificaViewModel_UsuarioAplicacao usuarioAplicacao, 
+            string idUsuario)
         {
-            _repo.Alterar(_mapper.Map<Domain.Modelo.UsuarioAplicacao>(entity));
+            return _repo.ExcluirUsuarioAplicacao(usuarioAplicacao.idAplicacao, idUsuario);
         }
 
-        public void Excluir(int id)
+        public UsuarioAplicacaoViewModel VinculaUsuarioAplicacao(ModificaViewModel_UsuarioAplicacao usuarioAplicacao, 
+            string idUsuario)
         {
-            _repo.Excluir(id);
-        }
-
-        public void Incluir(UsuarioAplicacaoViewModel entity)
-        {
-            _repo.Incluir(_mapper.Map<Domain.Modelo.UsuarioAplicacao>(entity));
-        }
-
-        public UsuarioAplicacaoViewModel SelecionarPorId(int id)
-        {
-            return _mapper.Map<UsuarioAplicacaoViewModel>(_repo.SelecionarPorId(id));
-        }
-
-        public List<UsuarioAplicacaoViewModel> SelecionarTodos()
-        {
-            return _mapper.Map<List<UsuarioAplicacaoViewModel>>(_repo.SelecionarTodos());
+            var usuAplicacaoViewModel = _mapper.Map<UsuarioAplicacaoViewModel>(
+                _repo.VinculaUsuarioAplicacao(usuarioAplicacao.idAplicacao, idUsuario));
+            return usuAplicacaoViewModel;
         }
     }
 }

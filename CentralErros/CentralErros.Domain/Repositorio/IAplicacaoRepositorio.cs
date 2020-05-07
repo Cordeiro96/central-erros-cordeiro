@@ -12,5 +12,6 @@ namespace CentralErros.Domain.Repositorio
         Aplicacao ObterAplicacaoId(int id);
         List<Aplicacao> ObterAplicacaoNome(string nome);
         Aplicacao ObterAplicacaoTipoLog(int app_id, int tipolog_id);
+        bool VerificaAcessoUsuariosApp(string idUsuario, int idAplicacao);
     }
 }

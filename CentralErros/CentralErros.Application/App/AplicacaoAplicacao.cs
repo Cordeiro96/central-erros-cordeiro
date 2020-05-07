@@ -39,19 +39,19 @@ namespace CentralErros.Application.App
                 );
         }
 
-        public AplicacaoViewModel ObterAplicacaoId(int id)
+        public AplicacaoSimplesViewModel ObterAplicacaoId(int id)
         {
-            return _mapper.Map<AplicacaoViewModel>(_repo.ObterAplicacaoId(id));
+            return _mapper.Map<AplicacaoSimplesViewModel>(_repo.ObterAplicacaoId(id));
         }
 
-        public List<AplicacaoViewModel> ObterAplicacaoNome(string nome)
+        public List<AplicacaoSimplesViewModel> ObterAplicacaoNome(string nome)
         {
-            return _mapper.Map<List<AplicacaoViewModel>>(_repo.ObterAplicacaoNome(nome));
+            return _mapper.Map<List<AplicacaoSimplesViewModel>>(_repo.ObterAplicacaoNome(nome));
         }
 
-        public AplicacaoViewModel ObterAplicacaoTipoLog(int app_id, int tipolog_id)
+        public AplicacaoLogsViewModel_Aplicacao ObterAplicacaoTipoLog(int app_id, int tipolog_id)
         {
-            return _mapper.Map<AplicacaoViewModel>(_repo.ObterAplicacaoTipoLog(app_id, tipolog_id));
+            return _mapper.Map<AplicacaoLogsViewModel_Aplicacao>(_repo.ObterAplicacaoTipoLog(app_id, tipolog_id));
         }
 
         public AplicacaoUsuarioViewModel_Aplicacao ObterAplicacaoUsuarios(int idAplicacao)
@@ -84,25 +84,20 @@ namespace CentralErros.Application.App
 
         public AplicacaoLogsViewModel_Aplicacao ObterAplicacaoLogs(int idAplicacao)
         {
-            /*var aplicacaoViewModel = new AplicacaoLogsViewModel_Aplicacao()
-            {
-                IdAplicacao = 0,
-                Nome = "",
-                Logs = new List<LogsViewModel_Aplicacao>()
-            };
-            //var aplicacao = _repo.ObterAplicacaoLogs(idAplicacao);*/
-            //var aplicacao = _repo.ObterAplicacaoLogs(idAplicacao);*/
-
             var aplicacaoViewModel = _mapper.Map<AplicacaoLogsViewModel_Aplicacao>(
                 _repo.ObterAplicacaoLogs(idAplicacao));
-
 
             return aplicacaoViewModel;
         }
 
-        public List<AplicacaoViewModel> ObterTodosAplicacoes()
+        public List<AplicacaoSimplesViewModel> ObterTodosAplicacoes()
         {
-            return _mapper.Map<List<AplicacaoViewModel>>(_repo.ObterTodosAplicacoes());
+            return _mapper.Map<List<AplicacaoSimplesViewModel>>(_repo.ObterTodosAplicacoes());
+        }
+
+        public bool VerificaAcessoUsuariosApp(string idUsuario, int idAplicacao)
+        {
+            return _repo.VerificaAcessoUsuariosApp(idUsuario, idAplicacao);
         }
     }
 }

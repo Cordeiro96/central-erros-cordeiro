@@ -4,6 +4,7 @@ using CentralErros.Application.ViewModel.Aplicacao;
 using CentralErros.Application.ViewModel.Aplicacao.AplicacaoLogs;
 using CentralErros.Application.ViewModel.Log;
 using CentralErros.Application.ViewModel.TipoLog;
+using CentralErros.Application.ViewModel.UsuarioAplicacao;
 using CentralErros.Domain.Modelo;
 using System;
 
@@ -22,6 +23,8 @@ namespace CentralErros.Application.Mapper
             CreateMap<Aplicacao, CadastroAplicacaoViewModel>().ReverseMap();
             CreateMap<Aplicacao, AplicacaoSimplesViewModel>().ReverseMap();
             CreateMap<Aplicacao, AplicacaoViewModel_Log>().ReverseMap();
+            CreateMap<Aplicacao, AplicacaoViewModel_UsuarioAplicacao>().ReverseMap();
+            CreateMap<Aplicacao, AplicacaoLogsViewModel_Aplicacao>().ReverseMap();
             CreateMap<Aviso, AvisoViewModel>().ReverseMap();
             CreateMap<Log, RetornoModificacaoLogViewModel>().ReverseMap();
             CreateMap<Log, AlteraLogViewModel>().ReverseMap();
@@ -37,6 +40,7 @@ namespace CentralErros.Application.Mapper
             CreateMap<UsuarioAplicacao, UsuarioAplicacaoViewModel>().ReverseMap();
             CreateMap<UsuarioAviso, UsuarioAvisoViewModel>().ReverseMap();
             CreateMap<Usuario, UsuarioViewModel>().ReverseMap();
+            CreateMap<Usuario, UsuarioViewModel_UsuarioAplicacao>().ReverseMap();
         }
     }
 }

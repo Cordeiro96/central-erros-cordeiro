@@ -23,24 +23,11 @@ namespace CentralErros.Application.App
             _repo.Incluir(_mapper.Map<UsuarioAviso>(entity));
         }
 
-        public void Excluir(int id)
+        public UsuarioAvisoViewModel AvisoVisualizado(string idUsuario, int idAviso, bool visualizado)
         {
-            _repo.Excluir(id);
-        }
-
-        public void Incluir(UsuarioAvisoViewModel entity)
-        {
-            _repo.Incluir(_mapper.Map<UsuarioAviso>(entity));
-        }
-
-        public UsuarioAvisoViewModel SelecionarPorId(int id)
-        {
-            return _mapper.Map<UsuarioAvisoViewModel>(_repo.SelecionarPorId(id));
-        }
-
-        public List<UsuarioAvisoViewModel> SelecionarTodos()
-        {
-            return _mapper.Map<List<UsuarioAvisoViewModel>>(_repo.SelecionarTodos());
+            var usuarioAviso = _mapper.Map<UsuarioAvisoViewModel>(
+                _repo.AvisoVisualizado(idUsuario, idAviso, visualizado));
+            return usuarioAviso;
         }
     }
 }

@@ -68,8 +68,7 @@ namespace CentralErros.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(type: "varchar(500)", nullable: false),
-                    Data = table.Column<DateTime>(type: "smalldatetime", nullable: false),
-                    Visualizado = table.Column<byte>(type: "TINYINT", nullable: false)
+                    Data = table.Column<DateTime>(type: "smalldatetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -228,7 +227,8 @@ namespace CentralErros.Data.Migrations
                     IdUsuario = table.Column<string>(nullable: false),
                     IdAviso = table.Column<int>(nullable: false),
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Visualizado = table.Column<byte>(type: "TINYINT", nullable: false)
                 },
                 constraints: table =>
                 {

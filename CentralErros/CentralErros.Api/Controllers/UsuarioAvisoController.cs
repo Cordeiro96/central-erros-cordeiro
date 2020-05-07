@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CentralErros.Application.Interface;
 using CentralErros.Application.ViewModel;
 using Microsoft.AspNetCore.Authorization;
@@ -17,42 +18,14 @@ namespace CentralErros.Api.Controllers
             _repo = repo;
         }
 
-        // GET: api/UsuariosAvisos
-        [HttpGet]
-        public IEnumerable<UsuarioAvisoViewModel> Get()
+        [HttpPut("Visualizado")]
+        public ActionResult<UsuarioAvisoViewModel> Visualizado(int idAviso, bool visualizado)
         {
-            return _repo.SelecionarTodos();
-        }
-
-        // GET: api/UsuariosAvisos/5
-        [HttpGet("{id}")]
-        public UsuarioAvisoViewModel Get(int id)
-        {
-            return _repo.SelecionarPorId(id);
-        }
-
-        // POST: api/UsuariosAvisos
-        [HttpPost]
-        public UsuarioAvisoViewModel Post([FromBody] UsuarioAvisoViewModel usuariosAvisos)
-        {
-            _repo.Incluir(usuariosAvisos);
-            return usuariosAvisos;
-        }
-
-        // PUT: api/UsuariosAvisos/5
-        [HttpPut("{id}")]
-        public UsuarioAvisoViewModel Put([FromBody] UsuarioAvisoViewModel usuariosAvisos)
-        {
-            _repo.Alterar(usuariosAvisos);
-            return usuariosAvisos;
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public List<UsuarioAvisoViewModel> Delete(int id)
-        {
-            _repo.Excluir(id);
-            return _repo.SelecionarTodos();
+            var idUsuario = HttpContext.User.Claims.ToList()[0].Value;
+            var avisoViewModel = _repo.AvisoVisualizado(idUsuario, idAviso, visualizado);
+            if (avisoViewModel == null)
+                return BadRequest();
+            return Ok(avisoViewModel);
         }
     }
 }

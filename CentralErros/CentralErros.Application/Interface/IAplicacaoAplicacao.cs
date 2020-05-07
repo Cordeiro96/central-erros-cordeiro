@@ -13,9 +13,10 @@ namespace CentralErros.Application.Interface
         void Excluir(int id);
         AplicacaoUsuarioViewModel_Aplicacao ObterAplicacaoUsuarios(int idAplicacao);
         AplicacaoLogsViewModel_Aplicacao ObterAplicacaoLogs(int idAplicacao);
-        List<AplicacaoViewModel> ObterTodosAplicacoes();
-        AplicacaoViewModel ObterAplicacaoId(int id);
-        List<AplicacaoViewModel> ObterAplicacaoNome(string nome);
-        AplicacaoViewModel ObterAplicacaoTipoLog(int app_id, int tipolog_id);
+        List<AplicacaoSimplesViewModel> ObterTodosAplicacoes();
+        AplicacaoSimplesViewModel ObterAplicacaoId(int id);
+        List<AplicacaoSimplesViewModel> ObterAplicacaoNome(string nome);
+        AplicacaoLogsViewModel_Aplicacao ObterAplicacaoTipoLog(int app_id, int tipolog_id);
+        bool VerificaAcessoUsuariosApp(string idUsuario, int idAplicacao);
     }
 }

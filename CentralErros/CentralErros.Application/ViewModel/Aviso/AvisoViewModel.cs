@@ -1,6 +1,4 @@
-﻿using CentralErros.Application.ViewModel.Aviso;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace CentralErros.Application.ViewModel
 {
@@ -8,8 +6,6 @@ namespace CentralErros.Application.ViewModel
     {
         public int Id { get; set; }
         public string Descricao { get; set; }
-        public int Visualizado { get; set; }
         public DateTime Data { get; set; }
-        public List<UsuarioViewModel_Aviso> Usuarios { get; set; }
     }
 }

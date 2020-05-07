@@ -5,10 +5,6 @@ namespace CentralErros.Application.Interface
 {
     public interface IUsuarioAvisoAplicacao
     {
-        void Incluir(UsuarioAvisoViewModel entity);
-        void Alterar(UsuarioAvisoViewModel entity);
-        UsuarioAvisoViewModel SelecionarPorId(int id);
-        List<UsuarioAvisoViewModel> SelecionarTodos();
-        void Excluir(int id);
+        UsuarioAvisoViewModel AvisoVisualizado(string idUsuario, int idAviso, bool visualizado);
     }
 }

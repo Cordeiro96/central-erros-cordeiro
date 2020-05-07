@@ -28,7 +28,7 @@ namespace CentralErros.Data.Repositorio
         public List<Aplicacao> ObterAplicacaoNome(string nome)
         {
             IQueryable<Aplicacao> aplicacoes = _contexto.Aplicacao
-                .Where(x => x.Nome.Contains(nome))
+                .Where(x => x.Nome.ToUpper().Contains(nome))
                 .Include(x => x.Logs)
                 .Include(x => x.UsuariosAplicacoes);
 
@@ -58,11 +58,6 @@ namespace CentralErros.Data.Repositorio
             List<Log> logs = querylogs.Include(x => x.TipoLog).AsNoTracking().ToList();
 
             app.Logs = logs;
-
-            /*//como aplicar o where para não trazer todos os logs?
-            var aplicacoes = _contexto.Aplicacao
-                .Where(x => x.Id == app_id)
-                .Include(x => x.Logs).ThenInclude(l => l.TipoLog);*/
 
             return app;
         }
@@ -98,9 +93,16 @@ namespace CentralErros.Data.Repositorio
                 .Include(x => x.Logs);
 
             aplicacao = aplicacao.Include(x => x.Logs).ThenInclude(up => up.TipoLog);
-            aplicacao = aplicacao.Include(x => x.UsuariosAplicacoes).ThenInclude(up => up.Usuario);
 
             return aplicacao.AsNoTracking().FirstOrDefault();
+        }
+
+        public bool VerificaAcessoUsuariosApp(string idUsuario, int idAplicacao)
+        {
+            var usuarioaplicacao = _contexto.UsuariosAplicacoes
+                                     .FirstOrDefault(x => x.IdAplicacao == idAplicacao &&
+                                                     x.IdUsuario == idUsuario);
+            return usuarioaplicacao != null;
         }
     }
 }

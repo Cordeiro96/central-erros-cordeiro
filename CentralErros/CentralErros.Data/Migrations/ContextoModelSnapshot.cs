@@ -55,9 +55,6 @@ namespace CentralErros.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<byte>("Visualizado")
-                        .HasColumnType("TINYINT");
-
                     b.HasKey("Id");
 
                     b.ToTable("Aviso");
@@ -215,6 +212,9 @@ namespace CentralErros.Data.Migrations
                         .HasAnnotation("SqlServer:IdentityIncrement", 1)
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte>("Visualizado")
+                        .HasColumnType("TINYINT");
 
                     b.HasKey("IdUsuario", "IdAviso");
 

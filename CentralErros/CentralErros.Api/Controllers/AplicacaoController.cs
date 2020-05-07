@@ -25,14 +25,14 @@ namespace CentralErros.Api.Controllers
 
         // GET: api/Aplicacao
         [HttpGet]
-        public ActionResult<IEnumerable<AplicacaoViewModel>> Get()
+        public ActionResult<IEnumerable<AplicacaoSimplesViewModel>> Get()
         {
             return Ok(_repo.ObterTodosAplicacoes());
         }
 
         // GET: api/Aplicacao/5
         [HttpGet("id/{id}")]
-        public ActionResult<AplicacaoViewModel> GetAppId(int? id)
+        public ActionResult<AplicacaoSimplesViewModel> GetAppId(int? id)
         {
             if (id == null)
                 return NoContent();
@@ -41,7 +41,7 @@ namespace CentralErros.Api.Controllers
         }
 
         [HttpGet("nome/{nome}")]
-        public ActionResult<IEnumerable<AplicacaoViewModel>> GetAppNome(string nome)
+        public ActionResult<IEnumerable<AplicacaoSimplesViewModel>> GetAppNome(string nome)
         {
             if (nome == null)
                 return NoContent();
@@ -49,8 +49,8 @@ namespace CentralErros.Api.Controllers
             return Ok(_repo.ObterAplicacaoNome(nome));
         }
 
-        [HttpGet("{app_id}/tipolog/{tipolog_id}")]
-        public ActionResult<IEnumerable<AplicacaoViewModel>> GetTipoLog(int? app_id, int? tipolog_id)
+        [HttpGet("logs-tipolog")]
+        public ActionResult<IEnumerable<AplicacaoLogsViewModel_Aplicacao>> GetTipoLog(int? app_id, int? tipolog_id)
         {
             if (app_id == null || tipolog_id == null)
                 return NoContent();
@@ -60,16 +60,25 @@ namespace CentralErros.Api.Controllers
 
         // GET: api/aplicacao/1/usuarios
         [Authorize(Roles = "admin")]
-        [HttpGet("{app_id}/usuarios")]
+        [HttpGet("usuarios")]
         public ActionResult<AplicacaoUsuarioViewModel_Aplicacao> GetAplicacaoUsuarios(int? app_id)
         {
             if (app_id == null)
                 return NoContent();
-            return Ok(_repo.ObterAplicacaoUsuarios(app_id.Value));
+
+            var idUsuario = HttpContext.User.Claims.ToList()[0].Value;
+            var autorizado = _repo.VerificaAcessoUsuariosApp(idUsuario, app_id.Value);
+            if (!autorizado)
+                return Unauthorized();
+
+            var aplicacaoViewModel = _repo.ObterAplicacaoUsuarios(app_id.Value);
+            if (aplicacaoViewModel == null)
+                return BadRequest();
+            return Ok(aplicacaoViewModel);
         }
 
         // GET: api/aplicacao/1/logs
-        [HttpGet("{app_id}/logs")]
+        [HttpGet("logs")]
         public ActionResult<AplicacaoLogsViewModel_Aplicacao> ObterAplicacaoLogs(int? app_id)
         {
             if (app_id == null)

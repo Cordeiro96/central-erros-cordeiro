@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CentralErros.Data.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200505023418_CentralErros")]
+    [Migration("20200506232618_CentralErros")]
     partial class CentralErros
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,9 +56,6 @@ namespace CentralErros.Data.Migrations
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasColumnType("varchar(500)");
-
-                    b.Property<byte>("Visualizado")
-                        .HasColumnType("TINYINT");
 
                     b.HasKey("Id");
 
@@ -217,6 +214,9 @@ namespace CentralErros.Data.Migrations
                         .HasAnnotation("SqlServer:IdentityIncrement", 1)
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte>("Visualizado")
+                        .HasColumnType("TINYINT");
 
                     b.HasKey("IdUsuario", "IdAviso");
 

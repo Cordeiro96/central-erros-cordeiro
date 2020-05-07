@@ -3,9 +3,8 @@
     public class UsuarioAvisoViewModel
     {
         public int Id { get; set; }
-        public int IdUsuario { get; set; }
+        public bool Visualizado { get; set; }
         public UsuarioViewModel Usuario { get; set; }
-        public int IdAviso { get; set; }
         public AvisoViewModel Aviso { get; set; }
     }
 }

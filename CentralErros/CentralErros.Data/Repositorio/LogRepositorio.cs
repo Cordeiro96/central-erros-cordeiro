@@ -16,10 +16,13 @@ namespace CentralErros.Data.Repositorio
 
         public override Log Incluir(Log log)
         {
-            var usuApps = _contexto.UsuariosAplicacoes.Where(x => x.IdAplicacao == log.IdAplicacao);
+            var usuApps = _contexto.UsuariosAplicacoes.Where(x => x.IdAplicacao == log.IdAplicacao)
+                .Include(x => x.Aplicacao).ToList();
+
             if (usuApps.Count() == 0)
                 return null;
 
+            var aplicacao = usuApps[0].Aplicacao.Nome;
             var usuAvisos = new List<UsuarioAviso>();
             foreach(var usuApp in usuApps)
             {
@@ -33,7 +36,8 @@ namespace CentralErros.Data.Repositorio
 
             var aviso = new Aviso
             {
-                Descricao = "AVISO DE LOG ["+ tipolog.Descricao+"]! " + log.Descricao,
+                Descricao = "AVISO DO TIPO LOG ["+ tipolog.Descricao+"] " +
+                            "NA APLICAÇÃO ["+ aplicacao +"]: " + log.Descricao,
                 Data = date,
                 UsuariosAvisos = usuAvisos
             };
@@ -54,8 +58,9 @@ namespace CentralErros.Data.Repositorio
             if (tipolog == null)
                 return null;
 
-            log.Data = logRepositorio.Data;
-            _contexto.Log.Update(log);
+            logRepositorio.Descricao = log.Descricao;
+            logRepositorio.IdTipoLog = log.IdTipoLog;
+            _contexto.Log.Update(logRepositorio);
             _contexto.SaveChanges();
             return log;
         }

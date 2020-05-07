@@ -64,13 +64,12 @@ namespace CentralErros.Application.App
             {
                 foreach (var usuarioAviso in usuario.UsuariosAvisos)
                 {
-                    if (!usuarioAviso.Aviso.Visualizado)
+                    if (!usuarioAviso.Visualizado)
                     {
                         usuarioViewModel.Avisos.Add(new AvisoViewModel_Usuario()
                         {
                             Id = usuarioAviso.Aviso.Id,
                             Descricao = usuarioAviso.Aviso.Descricao,
-                            Visualizado = usuarioAviso.Aviso.Visualizado,
                             Data = usuarioAviso.Aviso.Data
                         });
                     }

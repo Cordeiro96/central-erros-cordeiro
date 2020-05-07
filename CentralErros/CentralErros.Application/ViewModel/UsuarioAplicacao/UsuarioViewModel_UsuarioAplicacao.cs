@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CentralErros.Application.ViewModel.Aviso
+namespace CentralErros.Application.ViewModel.UsuarioAplicacao
 {
-    public class UsuarioViewModel_Aviso
+    public class UsuarioViewModel_UsuarioAplicacao
     {
         public string Id { get; set; }
         public string UserName { get; set; }

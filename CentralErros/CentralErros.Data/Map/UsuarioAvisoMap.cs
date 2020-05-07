@@ -20,6 +20,9 @@ namespace CentralErros.Data.Map
                 .WithMany(ua => ua.UsuariosAvisos)
                 .HasForeignKey(u => u.IdAviso);
 
+            builder.Property(x => x.Visualizado)
+                 .HasColumnType("TINYINT");
+
             builder.Property(x => x.Id)
                 .UseIdentityColumn();
         }
