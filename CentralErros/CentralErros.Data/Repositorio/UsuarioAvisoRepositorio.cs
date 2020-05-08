@@ -15,16 +15,19 @@ namespace CentralErros.Data.Repositorio
         public UsuarioAviso AvisoVisualizado(string idUsuario, int idAviso, bool visualizado)
         {
             var usuarioAviso = _contexto.UsuariosAvisos
-                .Where(x => x.IdUsuario == idUsuario && x.IdAviso == idAviso)
-                .Include(x => x.Usuario)
-                .Include(x => x.Aviso).FirstOrDefault();
+                .Where(x => x.IdUsuario == idUsuario && x.IdAviso == idAviso).FirstOrDefault();
 
             if (usuarioAviso == null)
                 return null;
 
             usuarioAviso.Visualizado = visualizado;
 
-            _contexto.UsuariosAvisos.Update(usuarioAviso);
+            _contexto.UsuariosAvisos.Update(new UsuarioAviso() 
+            { 
+                IdUsuario = usuarioAviso.IdUsuario,
+                IdAviso = usuarioAviso.IdAviso,
+                Visualizado = visualizado
+            });
             _contexto.SaveChanges();
 
             return usuarioAviso;
