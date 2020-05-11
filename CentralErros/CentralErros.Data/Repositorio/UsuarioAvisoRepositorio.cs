@@ -21,13 +21,14 @@ namespace CentralErros.Data.Repositorio
                 return null;
 
             usuarioAviso.Visualizado = visualizado;
-
-            _contexto.UsuariosAvisos.Update(new UsuarioAviso() 
+            /*_contexto.UsuariosAvisos.Update(new UsuarioAviso() 
             { 
+                Id = usuarioAviso.Id,
                 IdUsuario = usuarioAviso.IdUsuario,
                 IdAviso = usuarioAviso.IdAviso,
                 Visualizado = visualizado
-            });
+            });*/
+
             _contexto.SaveChanges();
 
             return usuarioAviso;

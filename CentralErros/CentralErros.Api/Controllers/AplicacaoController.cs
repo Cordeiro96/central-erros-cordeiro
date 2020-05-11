@@ -32,12 +32,12 @@ namespace CentralErros.Api.Controllers
 
         // GET: api/Aplicacao/5
         [HttpGet("id/{id}")]
-        public ActionResult<AplicacaoSimplesViewModel> GetAppId(int? id)
+        public ActionResult GetAppId(int? id)
         {
             if (id == null)
                 return NoContent();
-
-            return Ok(_repo.ObterAplicacaoId(Convert.ToInt32(id)));
+            var aplicacaoViewModel = _repo.ObterAplicacaoId(Convert.ToInt32(id));
+            return Ok(aplicacaoViewModel);
         }
 
         [HttpGet("nome/{nome}")]
@@ -54,6 +54,11 @@ namespace CentralErros.Api.Controllers
         {
             if (app_id == null || tipolog_id == null)
                 return NoContent();
+
+            var idUsuario = HttpContext.User.Claims.ToList()[0].Value;
+            var autorizado = _repo.VerificaAcessoUsuariosApp(idUsuario, app_id.Value);
+            if (!autorizado)
+                return Unauthorized();
 
             return Ok(_repo.ObterAplicacaoTipoLog(Convert.ToInt32(app_id), Convert.ToInt32(tipolog_id)));
         }
@@ -83,6 +88,12 @@ namespace CentralErros.Api.Controllers
         {
             if (app_id == null)
                 return NoContent();
+
+            var idUsuario = HttpContext.User.Claims.ToList()[0].Value;
+            var autorizado = _repo.VerificaAcessoUsuariosApp(idUsuario, app_id.Value);
+            if (!autorizado)
+                return Unauthorized();
+
             return Ok(_repo.ObterAplicacaoLogs(app_id.Value));
         }
 
@@ -107,10 +118,15 @@ namespace CentralErros.Api.Controllers
 
         [Authorize(Roles = "admin")]
         // DELETE: api/Aplicacao/1
-        [HttpDelete("{id}")]
-        public ActionResult<string> Delete(int id)
+        [HttpDelete("{app_id}")]
+        public ActionResult<string> Delete(int? app_id)
         {
-            _repo.Excluir(id);
+            var idUsuario = HttpContext.User.Claims.ToList()[0].Value;
+            var autorizado = _repo.VerificaAcessoUsuariosApp(idUsuario, app_id.Value);
+            if (!autorizado)
+                return Unauthorized();
+
+            _repo.Excluir(app_id.Value);
             return Ok("Aplicação excluída com sucesso!");
         }
     }
